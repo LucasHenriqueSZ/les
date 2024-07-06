@@ -1,0 +1,40 @@
+<!-- fragments/navbar.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<body>
+<footer th:fragment="footer" class="mt-5 bg-primary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <div class="row justify-content-center">
+                    <div class="w-25 h-25 pt-4">
+                        <img class="img-fluid" th:src="@{/img/logo_3.png}" alt="logo vestfut"
+                             style="max-width: 150px; max-height: 150px">
+                    </div>
+                    <h2>
+                        <a href="#" class="text-dark text-decoration-none"> VEST-FUT</a>
+                    </h2>
+                </div>
+                <p class="d-flex justify-content-center gap-3">
+                    <a href="#" class="text-light">Início</a>
+                    <a href="#" class="text-light">Nacionais</a>
+                    <a href="#" class="text-light">Internacionais</a>
+                    <a href="#" class="text-light">Seleções</a>
+                    <a href="#" class="text-light">Todos os produtos</a>
+                </p>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12 text-center">
+                <p class="text-secondary-emphasis">
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                    Todos os direitos reservados | <a href="#" class="text-secondary-emphasis">Vest-Fut</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</footer>
+</body>
+</html>
