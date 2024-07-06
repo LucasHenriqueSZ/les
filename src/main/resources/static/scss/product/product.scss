@@ -1,0 +1,27 @@
+.card-custom {
+  max-width: 250px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.card-custom:hover {
+  transform: scale(1.04);
+}
+
+.card-img-custom {
+  max-height: 200px;
+  min-height: 150px;
+  max-width: 250px;
+  min-width: 200px;
+  display: block;
+  margin: auto;
+  object-fit: contain;
+}
+
+.text-discount{
+  font-size: 12px;
+  border-radius: 15px;
+  width: 30%;
+}
+

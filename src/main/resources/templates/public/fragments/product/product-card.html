@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div th:fragment="product-card" class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <img th:src="@{/img/examples/palmeiras_1.webp}" class="card-img-top card-img-custom p-2"
+                     alt="Imagem do Produto">
+                <div class="card-body">
+                    <h5 class="card-title">Nome do Produto</h5>
+                    <p class="card-text text-discount text-decoration-line-through mb-0 p-1 bg-dark-subtle text-dark-emphasis">
+                        R$ 150,00</p>
+                    <p class="card-text fw-semibold">R$ 99,99</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="#" class="btn btn-primary">Comprar</a>
+                        <a href="#" class="btn btn-secondary">Adicionar<i class="ri-shopping-cart-2-line"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
