@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div class="row" th:fragment="item-product-shopping-cart">
+    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+        <!-- Imagem -->
+        <div class="bg-image hover-overlay hover-zoom ripple rounded"
+             data-mdb-ripple-color="light">
+            <img th:src="@{/img/examples/palmeiras_1.webp}"
+                 class="w-100" alt="nome produto"/>
+            <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+            </a>
+        </div>
+        <!-- Imagem -->
+    </div>
+
+    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+        <!-- Dados -->
+        <p><strong>Nome Produto</strong></p>
+        <p>Cor: blue</p>
+        <p>Tamanho: M</p>
+        <button type="button" data-mdb-button-init data-mdb-ripple-init
+                class="btn btn-danger btn-sm me-1 mb-2" data-mdb-tooltip-init
+                title="Remove item">
+            <i class="ri-delete-bin-6-line"></i>
+        </button>
+        <!-- Data -->
+    </div>
+
+    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+        <!-- Quantidade -->
+        <div class="d-flex mb-4" style="max-width: 300px">
+            <button data-mdb-button-init data-mdb-ripple-init
+                    class="btn btn-secondary px-3 ms-0 mx-1 h-50"
+                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                <i class="ri-subtract-line"></i>
+            </button>
+
+            <div data-mdb-input-init class="form-outline">
+                <input id="form1" min="0" name="quantity" value="1" type="number"
+                       class="form-control"/>
+                <label class="form-label" for="form1">Quantidade</label>
+            </div>
+
+            <button data-mdb-button-init data-mdb-ripple-init
+                    class="btn btn-secondary px-3 mx-1  h-50"
+                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                <i class="ri-add-large-fill"></i>
+            </button>
+        </div>
+        <!-- Quantidade -->
+
+        <!-- Preço -->
+        <p class="text-start text-md-center">
+            <strong>R$99,99</strong>
+        </p>
+        <!-- Preço -->
+    </div>
+</div>
+
+</body>
+</html>
