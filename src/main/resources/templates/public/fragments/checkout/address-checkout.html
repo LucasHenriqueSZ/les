@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div th:fragment="address-shopping-cart">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="mb-3"><strong>Endereço de Entrega</strong></h4>
+            <div class="mb-3">
+                <label for="endereco" class="form-label"><strong>Selecione o Endereço:</strong></label>
+                <select id="endereco" class="form-select">
+                    <option value="1">Rua das Flores, 123 - São Paulo, SP</option>
+                    <option value="2">Av. Brasil, 456 - Rio de Janeiro, RJ</option>
+                    <option value="3">Praça da Sé, 789 - Salvador, BA</option>
+                    <!-- Adicione mais endereços conforme necessário -->
+                </select>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-primary">
+                    <i class="ri-add-line me-2"></i>Adicionar Novo Endereço
+                </button>
+                <button type="button" class="btn btn-secondary">
+                    <i class="ri-edit-line me-2"></i>Editar Endereços
+                </button>
+            </div>
+
+            <div>
+                <h5 class="my-3"><strong>Entrega prevista</strong></h5>
+                <div class="d-flex align-items-center mb-2">
+                    <i class="ri-calendar-line me-2"></i>
+                    <p class="mb-0"><strong>Entre:</strong> 12/10/2024 - 14/10/2024</p>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="ri-truck-line me-2"></i>
+                    <p class="mb-0"><strong>Frete:</strong> R$10,32</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

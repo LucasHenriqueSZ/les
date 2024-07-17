@@ -9,8 +9,7 @@
 <div class="row" th:fragment="item-product-shopping-cart">
     <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
         <!-- Imagem -->
-        <div class="bg-image hover-overlay hover-zoom ripple rounded"
-             data-mdb-ripple-color="light">
+        <div class="bg-image hover-overlay hover-zoom ripple rounded">
             <img th:src="@{/img/examples/palmeiras_1.webp}"
                  class="w-100" alt="nome produto"/>
             <a href="#!">
@@ -25,8 +24,8 @@
         <p><strong>Nome Produto</strong></p>
         <p>Cor: blue</p>
         <p>Tamanho: M</p>
-        <button type="button" data-mdb-button-init data-mdb-ripple-init
-                class="btn btn-danger btn-sm me-1 mb-2" data-mdb-tooltip-init
+        <button type="button"
+                class="btn btn-danger btn-sm me-1 mb-2"
                 title="Remove item">
             <i class="ri-delete-bin-6-line"></i>
         </button>
@@ -36,19 +35,19 @@
     <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
         <!-- Quantidade -->
         <div class="d-flex mb-4" style="max-width: 300px">
-            <button data-mdb-button-init data-mdb-ripple-init
+            <button
                     class="btn btn-secondary px-3 ms-0 mx-1 h-50"
                     onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                 <i class="ri-subtract-line"></i>
             </button>
 
-            <div data-mdb-input-init class="form-outline">
+            <div class="form-outline">
                 <input id="form1" min="0" name="quantity" value="1" type="number"
                        class="form-control"/>
                 <label class="form-label" for="form1">Quantidade</label>
             </div>
 
-            <button data-mdb-button-init data-mdb-ripple-init
+            <button
                     class="btn btn-secondary px-3 mx-1  h-50"
                     onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                 <i class="ri-add-large-fill"></i>

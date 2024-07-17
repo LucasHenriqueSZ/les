@@ -11,7 +11,7 @@ public class HomeController {
 
     @GetMapping()
     public ModelAndView home() {
-        return new ModelAndView("public/home");
+        return new ModelAndView("public/pages/home");
     }
 
 }
