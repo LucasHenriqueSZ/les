@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>login - VEST-FUT</title>
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body class="background-gradient">
+<main>
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card p-2 shadow-sm" style="width: 100%; max-width: 400px;">
+            <div class="card-body d-flex flex-column">
+                <div class="text-center">
+                    <img th:src="@{/img/logo_2.png}" alt="Logo" style="max-width: 75px; max-height: 75px;">
+                </div>
+                <form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Digite seu email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="password" placeholder="Digite sua senha">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Entrar</button>
+
+                    <div class="text-center mt-3">
+                        <a th:href="@{/cliente/novo}" class="text-decoration-none">Criar conta</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</main>
+<script th:src="@{/js/libs/popper.min.js}"></script>
+<script th:src="@{/js/libs/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/libs/jquery.min.js}"></script>
+</body>
+</html>
