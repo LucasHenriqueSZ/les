@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="container" th:fragment="form-client-general-information">
+    <div class="card">
+        <div class="card-header d-flex align-items-center flex-column gap-2">
+            <img th:src="@{/img/logo_2.png}" alt="Logo" class="me-2" style="max-width: 70px; max-height: 70px;">
+            <h5 class="mb-0">CRIAR CONTA</h5>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nome" placeholder="Digite seu nome">
+                </div>
+                <div class="mb-3">
+                    <label for="cpf" class="form-label">CPF<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="cpf" placeholder="Digite seu CPF" maxlength="14">
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gênero<span class="text-danger">*</span></label>
+                    <select class="form-select" id="gender">
+                        <option selected>Selecione o gênero</option>
+                        <option value="male">Masculino</option>
+                        <option value="female">Feminino</option>
+                        <option value="other">Outro</option>
+                        <option value="prefer_not_to_say">Prefiro não dizer</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" id="email" placeholder="Digite seu email">
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Telefone<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="phone" placeholder="Digite seu telefone" maxlength="14">
+                </div>
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha<span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
+                </div>
+                <div class="mb-3">
+                    <label for="confirmarSenha" class="form-label">Confirmar Senha<span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="confirmarSenha" placeholder="Confirme sua senha">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

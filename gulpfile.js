@@ -11,8 +11,10 @@ const paths = {
         src: [
             'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
             'node_modules/@popperjs/core/dist/umd/popper.min.js',
+            'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/jquery-mask-plugin/dist/jquery.mask.min.js'
         ],
-        dest: 'src/main/resources/static/js/'
+        dest: 'src/main/resources/static/js/libs'
     }
 };
 
