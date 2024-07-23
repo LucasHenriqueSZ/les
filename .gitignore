@@ -39,4 +39,5 @@ mvnw.cmd
 package-lock.json
 
 src/main/resources/static/js/libs
-src/main/resources/static/css/custom.css
+src/main/resources/static/css/custom.min.css
+src/main/resources/static/css/custom-adm.min.css
