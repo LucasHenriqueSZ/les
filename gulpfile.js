@@ -9,10 +9,6 @@ const paths = {
         src: 'src/main/resources/static/scss/custom.scss',
         dest: 'src/main/resources/static/css/'
     },
-    styles_adm: {
-        src: 'src/main/resources/static/scss/admin/custom-adm.scss',
-        dest: 'src/main/resources/static/css/'
-    },
     scripts: {
         src: [
             'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
@@ -25,7 +21,7 @@ const paths = {
 };
 
 gulp.task('sass', function () {
-    return gulp.src([paths.styles.src, paths.styles_adm.src])
+    return gulp.src([paths.styles.src])
         .pipe(sass({
             includePaths: [path.join(__dirname, 'node_modules')]
         }).on('error', sass.logError))
