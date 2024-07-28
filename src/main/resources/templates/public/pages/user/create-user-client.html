@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastro - VEST-FUT</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+          rel="stylesheet"/>
+</head>
+<body class="background-gradient">
+<main class="my-5 d-flex flex-column gap-3">
+    <div th:replace="public/fragments/forms/client-general-information :: form-client-general-information"></div>
+
+    <div th:replace="public/fragments/forms/client-address :: form-client-address"></div>
+
+    <div th:replace="public/fragments/forms/client-credit-card :: form-client-credit-card"></div>
+
+    <div class="container text-center">
+        <button type="submit" class="btn btn-light">FINALIZAR CADASTRO</button>
+    </div>
+</main>
+<script th:src="@{/js/libs/popper.min.js}"></script>
+<script th:src="@{/js/libs/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/libs/jquery.min.js}"></script>
+<script th:src="@{/js/libs/jquery.mask.min.js}"></script>
+<script th:src="@{/js/viaCep.js}"></script>
+<script th:src="@{/js/masks.js}"></script>
+</body>
+</html>

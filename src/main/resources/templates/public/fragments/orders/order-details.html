@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div th:fragment="order-details">
+    <section style="background-color: #eee;">
+
+        <div>
+            <div class="row d-flex justify-content-center align-items-center ">
+                <div class="col">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex flex-column">
+                                    <span class="lead fw-normal">Status do pedido: <span class="badge bg-primary">Entregue</span></span>
+                                    <span class="text-muted small">Pedido #123456</span>
+                                </div>
+                                <div>
+
+                                    <div th:replace="public/fragments/orders/modal-order-details :: modal-order-details"></div>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                                <span class="dot"></span>
+                                <hr class="flex-fill track-line">
+                                <span class="dot"></span>
+                                <hr class="flex-fill track-line">
+                                <span class="dot"></span>
+                                <hr class="flex-fill track-line">
+                                <span class="dot"></span>
+                                <hr class="flex-fill track-line">
+                                <span
+                                        class="d-flex justify-content-center align-items-center big-dot dot"></span>
+                            </div>
+
+                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                <div class="d-flex flex-column align-items-start">
+                                    <span>12/07/2024</span>
+                                    <span>Pedido feito</span>
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <span>15/07/2024</span>
+                                    <span>Pedido aceito</span>
+                                </div>
+                                <div class="d-flex flex-column justify-content-center align-items-center">
+                                    <span>20/07/2024</span>
+                                    <span>Pedido enviado</span>
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <span>25/07/2024</span>
+                                    <span>Em trânsito</span>
+                                </div>
+                                <div class="d-flex flex-column align-items-end">
+                                    <span>30/07/2024</span>
+                                    <span>Entregue</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

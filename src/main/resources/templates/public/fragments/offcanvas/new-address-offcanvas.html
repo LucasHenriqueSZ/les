@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div th:fragment="new-address-offcanvas">
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddress"
+            aria-controls="offcanvasAddress">
+        <i class="ri-add-line me-2"></i>Adicionar Novo Endereço
+    </button>
+
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1"
+         id="offcanvasAddress" aria-labelledby="offcanvasAddressLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasAddressLabel">Adicionar Novo Endereço</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form>
+                <div class="mb-3">
+                    <label for="zipCode" class="form-label">CEP<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="zipCode" placeholder="Digite o CEP" maxlength="9">
+                    <div id="zipCodeError" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="street" class="form-label">Rua<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="street" placeholder="Digite o nome da rua">
+                </div>
+                <div class="mb-3">
+                    <label for="number" class="form-label">Número<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="number" placeholder="Digite o número">
+                </div>
+                <div class="mb-3">
+                    <label for="complement" class="form-label">Complemento</label>
+                    <input type="text" class="form-control" id="complement" placeholder="Digite o complemento">
+                </div>
+                <div class="mb-3">
+                    <label for="neighborhood" class="form-label">Bairro<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="neighborhood" placeholder="Digite o bairro">
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">Cidade<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="city" placeholder="Digite a cidade">
+                </div>
+                <div class="mb-3">
+                    <label for="state" class="form-label">Estado<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="state" placeholder="Digite o estado (XX)" maxlength="2">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Cadastrar Endereço</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

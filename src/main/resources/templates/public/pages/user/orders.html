@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meus pedidos - VEST-FUT</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+          rel="stylesheet"/>
+</head>
+<body>
+
+<div th:replace="public/fragments/nav-bar :: navbar"></div>
+
+<main class="container mt-4 mb-5">
+    <h1 class="mb-4">Meus pedidos</h1>
+    <section class="d-flex flex-column gap-4">
+        <div th:replace="public/fragments/orders/order-details :: order-details"></div>
+        <div th:replace="public/fragments/orders/order-details :: order-details"></div>
+    </section>
+
+</main>
+
+<div th:replace="public/fragments/footer :: footer"></div>
+</body>
+</html>

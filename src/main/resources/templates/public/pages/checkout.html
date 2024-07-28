@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Checkout - VEST-FUT</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+          rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="public/fragments/nav-bar :: navbar"></div>
+<main class="container my-3">
+    <h1 class="mb-4">Checkout</h1>
+
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="mb-3"><strong>Produtos</strong></h4>
+            <div class="card-body">
+                <div th:replace="public/fragments/checkout/item-product-checkout :: item-product-checkout"></div>
+                <hr class="my-4"/>
+                <div th:replace="public/fragments/checkout/item-product-checkout :: item-product-checkout"></div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="public/fragments/checkout/address-checkout :: address-shopping-cart"></div>
+
+    <div th:replace="public/fragments/checkout/payment-checkout :: payment-checkout"></div>
+
+</main>
+<div th:replace="public/fragments/footer :: footer"></div>
+</body>
+</html>

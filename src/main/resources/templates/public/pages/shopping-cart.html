@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Carrinho - VEST-FUT</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+          rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="public/fragments/nav-bar :: navbar"></div>
+
+<main>
+    <section class="h-100 gradient-custom">
+        <div class="container py-3">
+            <div class="row d-flex justify-content-center my-4">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-header py-3">
+                            <h4 class="mb-0">Carrinho - 2 items</h4>
+                        </div>
+                        <div class="card-body">
+                            <div th:replace="public/fragments/shopping-cart/item-product-shopping-cart :: item-product-shopping-cart"></div>
+                            <hr class="my-4"/>
+                            <div th:replace="public/fragments/shopping-cart/item-product-shopping-cart :: item-product-shopping-cart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div th:replace="public/fragments/shopping-cart/sumary-shopping-cart :: sumary-shopping-cart"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h3>Aproveite e veja também</h3>
+
+        <hr>
+
+    </section>
+</main>
+
+<div th:replace="public/fragments/footer :: footer"></div>
+<script th:src="@{/js/shopping-cart.js}"></script>
+</body>
+</html>
