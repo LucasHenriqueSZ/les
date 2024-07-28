@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<body>
+<div th:fragment="information-product">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center my-5 row-gap-4">
+
+        <div class="d-flex flex-column justify-content-center">
+            <h1 class="mb-1">Adicionar um novo produto</h1>
+        </div>
+        <div class="d-flex align-content-center flex-wrap gap-4">
+            <div class="d-flex gap-4">
+                <button class="btn btn-danger text-white">Descartar</button>
+                <button type="submit" class="btn btn-primary">Publicar produto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- First column-->
+        <div class="col-12 col-lg-8">
+            <!-- Product Information -->
+            <div class="card mb-5">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-tile mb-0">Informações do produto</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <label class="form-label" for="ecommerce-product-name">Nome</label>
+                        <input type="text" class="form-control" id="ecommerce-product-name"
+                               placeholder="Nome do produto"
+                               name="productTitle" aria-label="Product title">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label class="form-label" for="ecommerce-product-sku">SKU</label>
+                            <input type="number" class="form-control" id="ecommerce-product-sku" placeholder="SKU"
+                                   name="productSku" aria-label="Product SKU">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="ecommerce-product-size">Tamanho</label>
+                        <select class="form-select" id="ecommerce-product-size" name="productSize"
+                                aria-label="Product size">
+                            <option value="" disabled selected>Selecione o tamanho</option>
+                            <option value="P">P</option>
+                            <option value="M">M</option>
+                            <option value="G">G</option>
+                            <option value="GG">GG</option>
+                        </select>
+                    </div>
+                    <!-- Gênero -->
+                    <div class="mb-2 col ecommerce-select2-dropdown">
+                        <label class="form-label mb-1" for="gender">Gênero</label>
+                        <div class="position-relative">
+                            <select id="gender" class="select2 form-select select2-hidden-accessible"
+                                    data-placeholder="Selecione o Gênero" data-select2-id="gender" tabindex="-1"
+                                    aria-hidden="true">
+                                <option value="" data-select2-id="7">Selecione o Gênero</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Feminino">Feminino</option>
+                                <option value="Unissex">Unissex</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="ecommerce-product-material">Material</label>
+                        <select class="form-select" id="ecommerce-product-material" name="productMaterial"
+                                aria-label="Product material">
+                            <option value="" disabled selected>Selecione o material</option>
+                            <option value="Poliéster">Poliéster</option>
+                            <option value="Algodão">Algodão</option>
+                            <option value="Nylon">Nylon</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="ecommerce-product-technology">Tecnologia</label>
+                        <select class="form-select" id="ecommerce-product-technology" name="productTechnology"
+                                aria-label="Product technology">
+                            <option value="" disabled selected>Selecione a tecnologia</option>
+                            <option value="Dri-FIT">Dri-FIT</option>
+                            <option value="ClimaCool">ClimaCool</option>
+                            <option value="HeatGear">HeatGear</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mb-1">Descrição</label>
+                        <div class="form-control p-0">
+                    <textarea class="form-control" id="ecommerce-product-description" rows="5"
+                              placeholder="Descrição do produto" name="productDescription"
+                              aria-label="Product description"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Product Information -->
+            <!-- Media -->
+            <div class="card mb-5">
+                <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <h5 class="mb-0 card-title">Imagens do produto</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-4">
+                        <div class="d-flex flex-column align-items-center">
+                            <p>Adicione imagens do produto. A primeira imagem será usada como imagem
+                                principal.</p>
+                            <div data-mdb-ripple-init class="btn btn-primary btn-rounded w-50">
+                                <label class="form-label text-white m-1" for="customFile1"><i
+                                        class="ri-image-add-fill"></i> Adicionar imagem</label>
+                                <input type="file" class="form-control d-none" id="customFile1"
+                                       onchange="addImage(event)"/>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="mb-4 d-flex justify-content-center position-relative">
+                        <img id="firstImage" th:src="@{/img/placeholders/placeholder-img.jpg}"
+                             alt="example placeholder" style="width: 300px;"/>
+                        <i id="firstDeleteIcon" class="ri-delete-bin-7-fill position-absolute text-danger"
+                           style="top: 5px; right: 5px; cursor: pointer; display: none;"
+                           onclick="removeFirstImage()"></i>
+                    </div>
+                    <div id="imageContainer" class="d-flex flex-wrap justify-content-center">
+                        <!-- Additional images will be added here -->
+                    </div>
+                </div>
+            </div>
+            <!-- /Media -->
+            <!-- Inventory -->
+            <div class="card mb-5">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Inventário</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Navigation -->
+                        <div class="col-12 col-md-4 col-xl-5 col-xxl-4 mx-auto card-separator">
+                            <div class="d-flex justify-content-between flex-column mb-4 mb-md-0 pe-md-4">
+                                <div class="nav-align-left">
+                                    <ul class="nav nav-pills flex-column w-100" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" data-bs-toggle="tab"
+                                                    data-bs-target="#restock" aria-selected="true" role="tab">
+                                                <i class="ri-box-3-fill"></i>
+                                                <span class="align-middle">Estoque</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Navigation -->
+                        <!-- Options -->
+                        <div class="col-12 col-md-8 col-xl-7 col-xxl-8 pt-6 pt-md-0">
+                            <div class="tab-content p-0 ps-md-4">
+                                <!-- Restock Tab -->
+                                <!-- TODO: Adicionar estoque por tamanho da camisa -->
+                                <div class="tab-pane fade show active" id="restock" role="tabpanel">
+                                    <h6 class="text-body">opções</h6>
+                                    <label class="form-label" for="ecommerce-product-stock">Adicionar ao estoque</label>
+                                    <div class="row mb-4 g-4 pe-md-4">
+                                        <div class="col-12 col-sm-9">
+                                            <input type="number" class="form-control" id="ecommerce-product-stock"
+                                                   placeholder="quantidade" name="quantity" aria-label="Quantity"></div>
+                                        <div class="col-12 col-sm-3">
+                                            <button class="btn btn-primary">Confirmar</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-2 fw-normal">Produtos em estoque: <span
+                                                class="text-body">54</span></h6>
+                                        <h6 class="mb-2 fw-normal">Produtos em trânsito: <span
+                                                class="text-body">390</span></h6>
+                                        <h6 class="mb-2 fw-normal">Última vez reabastecido: <span class="text-body">24 de junho de 2023</span>
+                                        </h6>
+                                        <h6 class="mb-0 fw-normal">Estoque total ao longo da vida útil: <span
+                                                class="text-body">2430</span>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Options-->
+                    </div>
+                </div>
+            </div>
+            <!-- /Inventory -->
+        </div>
+        <!-- /Second column -->
+
+        <!-- Second column -->
+        <div class="col-12 col-lg-4">
+            <!-- Pricing Card -->
+            <div class="card mb-5">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Precificação</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Base Price -->
+                    <div class="mb-3">
+                        <label class="form-label" for="ecommerce-product-price">Preço base (R$)</label>
+                        <input type="number" class="form-control" id="ecommerce-product-price" placeholder="Preço"
+                               name="productPrice" aria-label="Product price">
+                    </div>
+                    <!-- Discounted Price -->
+                    <div class="mb-3">
+                        <label class="form-label" for="ecommerce-product-discount-price">Preço com desconto (R$)</label>
+                        <input type="number" class="form-control" id="ecommerce-product-discount-price"
+                               placeholder="Preço com desconto" name="productDiscountedPrice"
+                               aria-label="Product discounted price">
+                    </div>
+                    <!-- Instock switch -->
+                    <div class="d-flex justify-content-between align-items-center border-top pt-2">
+                        <span class="mb-0">Em estoque</span>
+                        <div class="w-25 d-flex justify-content-end">
+                            <div class="form-check form-switch me-n3">
+                                <input type="checkbox" class="form-check-input" checked="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Pricing Card -->
+            <!-- Organize Card -->
+            <div class="card mb-5">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Organize</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Marca -->
+                    <div class="mb-2 col ecommerce-select2-dropdown">
+                        <label class="form-label mb-1" for="brand">Marca</label>
+                        <div class="position-relative">
+                            <select id="brand" class="select2 form-select" data-placeholder="Selecione a Marca">
+                                <option value="" disabled selected>Selecione a Marca</option>
+                                <option value="Nike">Nike</option>
+                                <option value="Adidas">Adidas</option>
+                                <option value="Puma">Puma</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Categoria -->
+                    <div class="mb-2 col ecommerce-select2-dropdown">
+                        <label class="form-label mb-1" for="category">Categoria</label>
+                        <div class="position-relative">
+                            <select id="category" class="select2 form-select" data-placeholder="Selecione a Categoria">
+                                <option value="" disabled selected>Selecione a Categoria</option>
+                                <option value="Camisas">Camisas</option>
+                                <option value="Shorts">Shorts</option>
+                                <option value="Acessórios">Acessórios</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Time -->
+                    <div class="mb-2 col ecommerce-select2-dropdown">
+                        <label class="form-label mb-1" for="team">Time</label>
+                        <div class="position-relative">
+                            <select id="team" class="select2 form-select" data-placeholder="Selecione o Time">
+                                <option value="" disabled selected>Selecione o Time</option>
+                                <option value="Flamengo">Flamengo</option>
+                                <option value="Barcelona">Barcelona</option>
+                                <option value="Real Madrid">Real Madrid</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Coleção -->
+                    <div class="mb-2 col ecommerce-select2-dropdown">
+                        <label class="form-label mb-1" for="collection">Coleção</label>
+                        <div class="position-relative">
+                            <select id="collection" class="select2 form-select" data-placeholder="Selecione a Coleção">
+                                <option value="" disabled selected>Selecione a Coleção</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="Clássicos">Clássicos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Organize Card -->
+
+        </div>
+        <!-- /Second column -->
+    </div>
+    <script th:src="@{/js/new-product.js}"></script>
+</div>
+</body>
+</html>

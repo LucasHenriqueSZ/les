@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VEST-FUT</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+          rel="stylesheet">
+</head>
+<body class="body-adm">
+<div th:replace="private/fragments/sidebar :: sidebar"></div>
+<main class="main-adm">
+    <div class="container">
+        <div th:replace="private/fragments/forms/information-product :: information-product"></div>
+
+    </div>
+</main>
+</body>
+</html>
