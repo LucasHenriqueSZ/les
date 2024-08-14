@@ -6,11 +6,6 @@
 </head>
 <body>
 <div th:fragment="new-address-offcanvas">
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddress"
-            aria-controls="offcanvasAddress">
-        <i class="ri-add-line me-2"></i>Adicionar Novo Endereço
-    </button>
-
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1"
          id="offcanvasAddress" aria-labelledby="offcanvasAddressLabel">
         <div class="offcanvas-header">
@@ -18,41 +13,54 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <form>
+            <form id="addressForm">
                 <div class="mb-3">
                     <label for="zipCode" class="form-label">CEP<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="zipCode" placeholder="Digite o CEP" maxlength="9">
+                    <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Digite o CEP"
+                           maxlength="9">
                     <div id="zipCodeError" class="text-danger" style="display: none;"></div>
                 </div>
                 <div class="mb-3">
                     <label for="street" class="form-label">Rua<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="street" placeholder="Digite o nome da rua">
+                    <input type="text" class="form-control" id="street" name="street"
+                           placeholder="Digite o nome da rua">
+                    <div id="streetError" class="text-danger" style="display: none;"></div>
                 </div>
                 <div class="mb-3">
                     <label for="number" class="form-label">Número<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="number" placeholder="Digite o número">
+                    <input type="text" class="form-control" id="number" name="number" placeholder="Digite o número">
+                    <div id="numberError" class="text-danger" style="display: none;"></div>
                 </div>
                 <div class="mb-3">
                     <label for="complement" class="form-label">Complemento</label>
-                    <input type="text" class="form-control" id="complement" placeholder="Digite o complemento">
+                    <input type="text" class="form-control" id="complement" name="complement"
+                           placeholder="Digite o complemento">
+                    <div id="complementError" class="text-danger" style="display: none;"></div>
                 </div>
                 <div class="mb-3">
                     <label for="neighborhood" class="form-label">Bairro<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="neighborhood" placeholder="Digite o bairro">
+                    <input type="text" class="form-control" id="neighborhood" name="neighborhood"
+                           placeholder="Digite o bairro">
+                    <div id="neighborhoodError" class="text-danger" style="display: none;"></div>
                 </div>
                 <div class="mb-3">
                     <label for="city" class="form-label">Cidade<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="city" placeholder="Digite a cidade">
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Digite a cidade">
+                    <div id="cityError" class="text-danger" style="display: none;"></div>
                 </div>
                 <div class="mb-3">
                     <label for="state" class="form-label">Estado<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="state" placeholder="Digite o estado (XX)" maxlength="2">
+                    <input type="text" class="form-control" id="state" name="state" placeholder="Digite o estado (XX)"
+                           maxlength="2">
+                    <div id="stateError" class="text-danger" style="display: none;"></div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Cadastrar Endereço</button>
+                <button type="button" class="btn btn-primary" id="submitAddress">Adicionar Endereço</button>
             </form>
         </div>
     </div>
+    <script th:src="@{/js/libs/jquery.min.js}"></script>
+    <script th:src="@{/js/address-form.js}"></script>
 </div>
 </body>
 </html>

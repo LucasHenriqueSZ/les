@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>toast fragment</title>
+</head>
+<body>
+<div th:fragment="toast">
+    <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="templateToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true" style="display: none;">
+            <div class="d-flex">
+                <div class="toast-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/utils/toast.js}"></script>
+</div>
+</body>
+</html>
