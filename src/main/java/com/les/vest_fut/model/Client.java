@@ -1,6 +1,7 @@
 package com.les.vest_fut.model;
 
 import com.les.vest_fut.Enums.Gender;
+import com.les.vest_fut.annotations.ValidPassword;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -51,12 +52,15 @@ public class Client {
     private String phone;
 
     @NotBlank(message = "{NotBlank.client.password}")
-    @Size(min = 8, message = "{Size.client.password}")
+    @ValidPassword
     @Column(name = "cli_password", nullable = false)
     private String password;
 
     @Transient
     private String confirmPassword;
+
+    @Column(name = "cli_active", nullable = false)
+    private boolean active = true;
 
     @CreationTimestamp
     @Column(name = "cli_created_at", updatable = false)
