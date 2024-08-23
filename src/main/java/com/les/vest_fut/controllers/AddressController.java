@@ -1,6 +1,6 @@
 package com.les.vest_fut.controllers;
 
-import com.les.vest_fut.model.Address;
+import com.les.vest_fut.model.users.Address;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

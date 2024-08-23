@@ -1,4 +1,4 @@
-package com.les.vest_fut.model;
+package com.les.vest_fut.model.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.les.vest_fut.Enums.CardFlag;
