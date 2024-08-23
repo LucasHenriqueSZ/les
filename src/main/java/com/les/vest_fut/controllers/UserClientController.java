@@ -1,5 +1,6 @@
 package com.les.vest_fut.controllers;
 
+import com.les.vest_fut.Enums.CardFlag;
 import com.les.vest_fut.Enums.Gender;
 import com.les.vest_fut.Enums.MessagesSuccess;
 import com.les.vest_fut.model.Address;
@@ -44,6 +45,7 @@ public class UserClientController {
         ModelAndView mv = new ModelAndView("public/pages/user/create-user-client");
         mv.addObject("client", client);
         mv.addObject("genders", Gender.getAll());
+        mv.addObject("cardFlags", CardFlag.getAll());
         return mv;
     }
 
