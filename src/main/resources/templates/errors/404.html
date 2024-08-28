@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Página Não Encontrada</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+</head>
+<body class="bg-light">
+<section class="d-flex align-items-center justify-content-center vh-100">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="mb-4">
+                    <div class="mb-4"
+                         th:style="|background-image: url('@{/img/gifs/404.gif}'); background-size: cover; background-position: center; height: 400px;|">
+                        <h1 class="display-1 text-dark">404</h1>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="h2 text-secondary">Parece que você está perdido</h3>
+                    <p class="text-secondary">A página que você está procurando não está disponível!</p>
+                    <a th:href="@{/}" class="btn btn-primary btn-lg mt-4">Ir para a Página Inicial</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

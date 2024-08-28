@@ -8,22 +8,30 @@
     <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
           rel="stylesheet"/>
+    <script th:src="@{/js/libs/jquery.min.js}"></script>
 </head>
 <body class="background-gradient">
-<main class="my-5 d-flex flex-column gap-3">
-    <div th:replace="public/fragments/forms/client-general-information :: form-client-general-information"></div>
 
-    <div th:replace="public/fragments/forms/client-address :: form-client-address"></div>
+<main>
+    <div th:replace="utils/toast :: toast"></div>
+    <form th:object="${client}" th:action="@{/cliente/novo}" method="post" class="my-5 d-flex flex-column gap-3">
+        <div th:replace="public/fragments/forms/client-general-information :: form-client-general-information"></div>
 
-    <div th:replace="public/fragments/forms/client-credit-card :: form-client-credit-card"></div>
+        <div th:replace="public/fragments/forms/client-address :: form-client-address"></div>
 
-    <div class="container text-center">
-        <button type="submit" class="btn btn-light">FINALIZAR CADASTRO</button>
-    </div>
+        <div th:replace="public/fragments/forms/client-credit-card :: form-client-credit-card"></div>
+
+        <div class="container text-center">
+            <button type="submit" class="btn btn-light">FINALIZAR CADASTRO</button>
+        </div>
+    </form>
+    <div th:replace="public/fragments/offcanvas/new-address-offcanvas"></div>
+    <div th:replace="public/fragments/offcanvas/new-credit-card-offcanvas"></div>
 </main>
+
+
 <script th:src="@{/js/libs/popper.min.js}"></script>
 <script th:src="@{/js/libs/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/js/libs/jquery.min.js}"></script>
 <script th:src="@{/js/libs/jquery.mask.min.js}"></script>
 <script th:src="@{/js/viaCep.js}"></script>
 <script th:src="@{/js/masks.js}"></script>

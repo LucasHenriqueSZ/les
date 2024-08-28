@@ -5,6 +5,8 @@
     <title></title>
 </head>
 <body>
+<!--/*@thymesVar id="client" type="com.les.vest_fut.model.Client"*/-->
+<!--/*@thymesVar id="genders" type="java.util.List<com.les.vest_fut.enums.Gender>"*/-->
 <div class="container" th:fragment="form-client-general-information">
     <div class="card">
         <div class="card-header d-flex align-items-center flex-column gap-2">
@@ -12,42 +14,51 @@
             <h5 class="mb-0">CRIAR CONTA</h5>
         </div>
         <div class="card-body">
-            <form>
-                <div class="mb-3">
-                    <label for="nome" class="form-label">Nome<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="nome" placeholder="Digite seu nome">
-                </div>
-                <div class="mb-3">
-                    <label for="cpf" class="form-label">CPF<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="cpf" placeholder="Digite seu CPF" maxlength="14">
-                </div>
-                <div class="mb-3">
-                    <label for="gender" class="form-label">Gênero<span class="text-danger">*</span></label>
-                    <select class="form-select" id="gender">
-                        <option selected>Selecione o gênero</option>
-                        <option value="male">Masculino</option>
-                        <option value="female">Feminino</option>
-                        <option value="other">Outro</option>
-                        <option value="prefer_not_to_say">Prefiro não dizer</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="email" placeholder="Digite seu email">
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Telefone<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="phone" placeholder="Digite seu telefone" maxlength="14">
-                </div>
-                <div class="mb-3">
-                    <label for="senha" class="form-label">Senha<span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
-                </div>
-                <div class="mb-3">
-                    <label for="confirmarSenha" class="form-label">Confirmar Senha<span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="confirmarSenha" placeholder="Confirme sua senha">
-                </div>
-            </form>
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="nome" th:field="*{name}" placeholder="Digite seu nome">
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+            <div class="mb-3">
+                <label for="cpf" class="form-label">CPF<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="cpf" th:field="*{cpf}" placeholder="Digite seu CPF"
+                       maxlength="14">
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></div>
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gênero<span class="text-danger">*</span></label>
+                <select class="form-select" id="gender" th:field="*{gender}">
+                    <option value="" disabled>Selecione o gênero</option>
+                    <option th:each="gender : ${genders}" th:value="${gender}" th:text="${gender.name}">Gênero</option>
+                </select>
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('gender')}"
+                     th:errors="*{gender}"></div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Digite seu email">
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Telefone<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="phone" th:field="*{phone}" placeholder="Digite seu telefone"
+                       maxlength="14">
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+            </div>
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha<span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="senha" th:field="*{password}"
+                       placeholder="Digite sua senha">
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('password')}"
+                     th:errors="*{password}"></div>
+            </div>
+            <div class="mb-3">
+                <label for="confirmarSenha" class="form-label">Confirmar Senha<span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="confirmarSenha" th:field="*{confirmPassword}"
+                       placeholder="Confirme sua senha">
+                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('passwordsMatching')}"
+                     th:errors="*{passwordsMatching}"></div>
+            </div>
         </div>
     </div>
 </div>
