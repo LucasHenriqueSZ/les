@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Meu Perfil - VEST-FUT</title>
+    <title>Meu Perfil</title>
     <link th:href="@{/css/custom.min.css}" rel="stylesheet">
     <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
@@ -86,6 +86,8 @@
 
 </main>
 
+<div th:replace="public/fragments/offcanvas/new-address-offcanvas"></div>
+<div th:replace="public/fragments/offcanvas/new-credit-card-offcanvas"></div>
 <div th:replace="public/fragments/footer :: footer"></div>
 <script th:src="@{/js/libs/jquery.mask.min.js}"></script>
 <script th:src="@{/js/masks.js}"></script>

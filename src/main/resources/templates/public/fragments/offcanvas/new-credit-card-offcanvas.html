@@ -7,8 +7,6 @@
 <body>
 <div th:fragment="new-credit-card-offcanvas">
     <div>
-
-
         <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1"
              id="offcanvasCreditCard" aria-labelledby="offcanvasCreditCardLabel">
             <div class="offcanvas-header">
@@ -21,6 +19,14 @@
                         <label for="cardNumber" class="form-label">Número do Cartão<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="Digite o número do cartão" maxlength="19">
                         <div id="cardNumberError" class="text-danger" style="display: none;"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="flag" class="form-label">Selecione a Bandeira do Cartão<span class="text-danger">*</span></label>
+                        <select class="form-select" id="flag" name="flag">
+                            <option value="" disabled>Selecione a bandeira</option>
+                            <option th:each="flag : ${cardFlags}" th:value="${flag}" th:text="${flag.name}">Bandeira</option>
+                        </select>
+                        <div id="flagError" class="text-danger" style="display: none;"></div>
                     </div>
                     <div class="mb-3">
                         <label for="holderName" class="form-label">Nome do Titular<span class="text-danger">*</span></label>

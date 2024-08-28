@@ -1,12 +1,10 @@
-package com.les.vest_fut.model;
+package com.les.vest_fut.model.users;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.les.vest_fut.Enums.CardFlag;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -43,6 +41,11 @@ public class Card {
     @Column(name = "crd_cvv", nullable = false)
     private String cvv;
 
+    @NotNull(message = "{NotNull.card.flag}")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "crd_flag", nullable = false)
+    private CardFlag flag;
+
     public Card(String cardNumber, String holderName, String expiryDate, String cvv) {
         setCardNumber(cardNumber);
         setHolderName(holderName);
@@ -51,5 +54,10 @@ public class Card {
     }
 
     public Card() {
+    }
+
+    @JsonProperty("flagName")
+    public String getFlagName() {
+        return flag != null ? flag.getName() : null;
     }
 }

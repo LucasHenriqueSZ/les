@@ -28,10 +28,12 @@
                                 <input type="hidden" th:name="cards[__${iterStat.index}__].holderName" th:value="${card.holderName}">
                                 <input type="hidden" th:name="cards[__${iterStat.index}__].expiryDate" th:value="${card.expiryDate}">
                                 <input type="hidden" th:name="cards[__${iterStat.index}__].cvv" th:value="${card.cvv}">
+                                <input type="hidden" th:name="cards[__${iterStat.index}__].flag" th:value="${card.flag}">
                                 <p class="mb-1"><strong>Número do Cartão:</strong> <span th:text="${card.cardNumber}"></span></p>
                                 <p class="mb-1"><strong>Nome do Titular:</strong> <span th:text="${card.holderName}"></span></p>
                                 <p class="mb-1"><strong>Data de Validade:</strong> <span th:text="${card.expiryDate}"></span></p>
                                 <p class="mb-1"><strong>Código CVV:</strong> <span th:text="${card.cvv}"></span></p>
+                                <p class="mb-1"><strong>Bandeira:</strong> <span th:text="${card.flagName}"></span></p>
                             </div>
                             <button type="button" class="btn btn-danger text-white btn-sm remove-address">
                                 <i class="ri-delete-bin-6-line"></i> Remover

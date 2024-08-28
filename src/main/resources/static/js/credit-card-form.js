@@ -40,7 +40,7 @@ function isDuplicateCreditCard(jsonData) {
     return isDuplicate;
 }
 
-function validateAndAddCreditCard(jsonData, form) {
+function validateAndAddCreditCard(jsonData, form) {;
     $.ajax({
         url: '/card/validate',
         method: 'POST',
@@ -68,6 +68,7 @@ function addCreditCardToContainer(data) {
         <input type="hidden" name="cards[${index}].holderName" value="${data.holderName}">
         <input type="hidden" name="cards[${index}].expiryDate" value="${data.expiryDate}">
         <input type="hidden" name="cards[${index}].cvv" value="${data.cvv}">
+        <input type="hidden" name="cards[${index}].flag" value="${data.flag}">
         <div class="card mb-3">
           <div class="card-body d-flex justify-content-between align-items-center">
             <div>
@@ -75,6 +76,7 @@ function addCreditCardToContainer(data) {
               <p class="mb-1"><strong>Nome do Titular:</strong> ${data.holderName}</p>
               <p class="mb-1"><strong>Data de Validade:</strong> ${data.expiryDate}</p>
               <p class="mb-1"><strong>Código CVV:</strong> ${data.cvv}</p>
+              <p class="mb-1"><strong>Bandeira:</strong> ${data.flagName}</p>
             </div>
             <button type="button" class="btn btn-danger text-white btn-sm remove-address">
               <i class="ri-delete-bin-6-line"></i> Remover

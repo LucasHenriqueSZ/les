@@ -1,10 +1,11 @@
 package com.les.vest_fut.controllers;
 
+import com.les.vest_fut.Enums.CardFlag;
 import com.les.vest_fut.Enums.Gender;
 import com.les.vest_fut.Enums.MessagesSuccess;
-import com.les.vest_fut.model.Address;
-import com.les.vest_fut.model.Card;
-import com.les.vest_fut.model.Client;
+import com.les.vest_fut.model.users.Address;
+import com.les.vest_fut.model.users.Card;
+import com.les.vest_fut.model.users.UserEntity;
 import com.les.vest_fut.service.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -40,15 +41,16 @@ public class UserClientController {
 
 
     @GetMapping("/novo")
-    public ModelAndView newUserClient(Client client) {
+    public ModelAndView newUserClient(UserEntity client) {
         ModelAndView mv = new ModelAndView("public/pages/user/create-user-client");
         mv.addObject("client", client);
         mv.addObject("genders", Gender.getAll());
+        mv.addObject("cardFlags", CardFlag.getAll());
         return mv;
     }
 
     @PostMapping("/novo")
-    public ModelAndView saveUserClient(@Valid @ModelAttribute("client") Client client,
+    public ModelAndView saveUserClient(@Valid @ModelAttribute("client") UserEntity client,
                                        BindingResult bindingResult,
                                        RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
@@ -66,7 +68,7 @@ public class UserClientController {
         return mv;
     }
 
-    private Client getMockClient() {
+    private UserEntity getMockClient() {
         // TODO remover mock de teste
         List<Address> addresses = new ArrayList<>();
         addresses.add(new Address("12345-678", "Rua Exemplo", "123", "Apto 101", "Bairro Exemplo", "Cidade Exemplo", "SP"));
@@ -76,7 +78,7 @@ public class UserClientController {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card("1234567812345678", "João Exemplo", "12/25", "123"));
 
-        Client client = new Client();
+        UserEntity client = new UserEntity();
         client.setName("João Exemplo");
         client.setCpf("123.456.789-00");
         client.setGender(Gender.MALE);
