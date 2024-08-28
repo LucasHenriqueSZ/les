@@ -1,14 +1,16 @@
 package com.les.vest_fut.repository;
 
-import com.les.vest_fut.model.users.User;
+import com.les.vest_fut.model.users.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    Optional<UserEntity> findByEmail(String email);
 
-    Optional<User> findByName(String name);
+    Optional<UserEntity> findByName(String name);
 
-    Optional<User> findByCpf(String cpf);
+    Optional<UserEntity> findByCpf(String cpf);
+
+    Optional<UserEntity> findFirstByName(String name);
 }

@@ -18,16 +18,24 @@
                     <img th:src="@{/img/logo_3.png}" alt="Logo" style="max-width: 75px; max-height: 75px;">
                     <span class="fs-5 text-dark fw-semibold">T-SHIRT GEN</span>
                 </div>
-                <form>
+                <div th:if="${param.error}" class="alert alert-danger">
+                    Usuário ou senha inválidos
+                </div>
+                <div th:if="${param.logout}" class="alert alert-success">
+                    Logout realizado com sucesso
+                </div>
+
+                <form method="post" role="form" th:action="@{/auth/login}">
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Digite seu email">
+                        <label for="username" class="form-label">Email</label>
+                        <input
+                                type="email" class="form-control" id="username" name="username" placeholder="Digite seu email">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="password" placeholder="Digite sua senha">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua senha">
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                    <button type="submit" value="Log in" class="btn btn-primary w-100">Entrar</button>
 
                     <div class="text-center mt-3">
                         <a th:href="@{/cliente/novo}" class="text-decoration-none">Criar conta</a>
