@@ -3,11 +3,12 @@ package com.les.vest_fut.controllers;
 import com.les.vest_fut.Enums.CardFlag;
 import com.les.vest_fut.Enums.Gender;
 import com.les.vest_fut.Enums.MessagesSuccess;
-import com.les.vest_fut.model.users.Address;
-import com.les.vest_fut.model.users.Card;
 import com.les.vest_fut.model.users.UserEntity;
+import com.les.vest_fut.security.CustomUserDetails;
 import com.les.vest_fut.service.ClientService;
+import com.les.vest_fut.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,25 +18,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 @Controller
 @RequestMapping("/cliente")
 public class UserClientController {
 
     private final ClientService clientService;
+    private final UserService userService;
 
-    public UserClientController(ClientService clientService) {
+    public UserClientController(ClientService clientService, UserService userService) {
         this.clientService = clientService;
+        this.userService = userService;
     }
 
     @GetMapping("/perfil")
-    public ModelAndView profileClient() {
+    public ModelAndView profileClient(@AuthenticationPrincipal CustomUserDetails sessionUser) {
         ModelAndView mv = new ModelAndView("public/pages/user/profile-client");
-        mv.addObject("client", getMockClient());
+        mv.addObject("client", userService.getUserById(sessionUser.getUserEntity().getId()));
         mv.addObject("genders", Gender.getAll());
+        mv.addObject("cardFlags", CardFlag.getAll());
         return mv;
     }
 
@@ -67,31 +67,5 @@ public class UserClientController {
         }
         return mv;
     }
-
-    private UserEntity getMockClient() {
-        // TODO remover mock de teste
-        List<Address> addresses = new ArrayList<>();
-        addresses.add(new Address("12345-678", "Rua Exemplo", "123", "Apto 101", "Bairro Exemplo", "Cidade Exemplo", "SP"));
-        addresses.add(new Address("12345-678", "Rua Exemplo", "123", "Apto 101", "Bairro Exemplo", "Cidade Exemplo", "SP"));
-        addresses.add(new Address("12345-678", "Rua Exemplo", "123", "Apto 101", "Bairro Exemplo", "Cidade Exemplo", "SP"));
-
-        List<Card> cards = new ArrayList<>();
-        cards.add(new Card("1234567812345678", "João Exemplo", "12/25", "123"));
-
-        UserEntity client = new UserEntity();
-        client.setName("João Exemplo");
-        client.setCpf("123.456.789-00");
-        client.setGender(Gender.MALE);
-        client.setEmail("joao.exemplo@example.com");
-        client.setPhone("(11) 91234-5678");
-        client.setPassword("senhaSegura123");
-        client.setConfirmPassword("senhaSegura123");
-        client.setAddresses(addresses);
-        client.setCards(cards);
-
-        return client;
-    }
-
-
 
 }
