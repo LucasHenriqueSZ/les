@@ -27,6 +27,25 @@
         </div>
 
         <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10"  th:object="${client}">
+                    <div th:if="${not #lists.isEmpty(mensagem)}" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="ri-checkbox-circle-line"></i> <span th:text="${mensagem}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(alert)}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="ri-alert-line"></i> <span th:text="${alert}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div th:if="${#fields.hasErrors()}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="ri-error-warning-line"></i> As alterações não foram realizadas. Verifique os erros no formulário para que os dados possam ser atualizados corretamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
             <div class="row gy-4 gy-lg-0">
                 <div class="col-12 col-lg-4 col-xl-3">
                     <div class="row gy-4">

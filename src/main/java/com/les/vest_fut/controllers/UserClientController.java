@@ -7,10 +7,12 @@ import com.les.vest_fut.model.users.UserEntity;
 import com.les.vest_fut.security.CustomUserDetails;
 import com.les.vest_fut.service.ClientService;
 import com.les.vest_fut.service.UserService;
-import jakarta.validation.Valid;
+import com.les.vest_fut.utils.groups.OnBasicInfoValidation;
+import com.les.vest_fut.utils.groups.OnCreate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,9 +33,9 @@ public class UserClientController {
     }
 
     @GetMapping("/perfil")
-    public ModelAndView profileClient(@AuthenticationPrincipal CustomUserDetails sessionUser) {
+    public ModelAndView profileClient(@AuthenticationPrincipal CustomUserDetails sessionUser, UserEntity client) {
         ModelAndView mv = new ModelAndView("public/pages/user/profile-client");
-        mv.addObject("client", userService.getUserById(sessionUser.getUserEntity().getId()));
+        mv.addObject("client", client.hasValidObject() ? client : userService.getUserById(sessionUser.getUserEntity().getId()));
         mv.addObject("genders", Gender.getAll());
         mv.addObject("cardFlags", CardFlag.getAll());
         return mv;
@@ -50,7 +52,7 @@ public class UserClientController {
     }
 
     @PostMapping("/novo")
-    public ModelAndView saveUserClient(@Valid @ModelAttribute("client") UserEntity client,
+    public ModelAndView saveUserClient(@Validated(OnCreate.class) @ModelAttribute("client") UserEntity client,
                                        BindingResult bindingResult,
                                        RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
@@ -64,6 +66,29 @@ public class UserClientController {
         } catch (Exception e) {
             attributes.addFlashAttribute("alert", e.getMessage());
             mv.setViewName("redirect:/cliente/novo");
+        }
+        return mv;
+    }
+
+    @PostMapping("/editBasicInfo")
+    public ModelAndView editBasicInfoUserClient(@Validated(OnBasicInfoValidation.class) @ModelAttribute("client") UserEntity client,
+                                       BindingResult bindingResult,
+                                       @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                       RedirectAttributes attributes) {
+        if (bindingResult.hasErrors()) {
+            UserEntity currentUser = userService.getUserById(sessionUser.getUserEntity().getId());
+            client.setAddresses(currentUser.getAddresses());
+            client.setCards(currentUser.getCards());
+            return profileClient(sessionUser, client);
+        }
+        ModelAndView mv = new ModelAndView();
+        try {
+            clientService.editBasicInfoClient(client, sessionUser.getUserEntity().getId());
+            mv.setViewName("redirect:/cliente/perfil");
+            attributes.addFlashAttribute("mensagem", MessagesSuccess.CLIENT_UPDATED.getMessage());
+        } catch (Exception e) {
+            attributes.addFlashAttribute("alert", e.getMessage());
+            mv.setViewName("redirect:/cliente/perfil");
         }
         return mv;
     }

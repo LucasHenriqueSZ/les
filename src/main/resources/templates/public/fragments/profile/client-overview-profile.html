@@ -5,39 +5,69 @@
     <title></title>
 </head>
 <body>
-<div class="container" th:fragment="overview-profile">
+<div class="container" th:fragment="overview-profile" th:object="${client}">
     <div class="row g-0 mb-3">
+        <!-- Nome -->
         <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-            <div class="p-2">Nome</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('name')} ? 'text-danger fw-bold' : '')">
+                <i th:if="${#fields.hasErrors('name')}" class="ri-error-warning-line text-danger"></i> Nome
+            </div>
         </div>
         <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-            <div class="p-2">[[${client.name}]]</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('name')} ? 'border border-danger rounded text-danger fw-bold' : '')">
+                [[${client.name}]]
+            </div>
         </div>
+
+        <!-- CPF -->
         <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-            <div class="p-2">CPF</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('cpf')} ? 'text-danger fw-bold' : '')">
+                <i th:if="${#fields.hasErrors('cpf')}" class="ri-error-warning-line text-danger"></i> CPF
+            </div>
         </div>
         <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-            <div class="p-2">[[${client.cpf}]]</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('cpf')} ? 'border border-danger rounded text-danger fw-bold' : '')">
+                [[${client.cpf}]]
+            </div>
         </div>
+
+        <!-- Gênero -->
         <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-            <div class="p-2">Gênero</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('gender')} ? 'text-danger fw-bold' : '')">
+                <i th:if="${#fields.hasErrors('gender')}" class="ri-error-warning-line text-danger"></i> Gênero
+            </div>
         </div>
         <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-            <div class="p-2">[[${client.gender.name}]]</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('gender')} ? 'border border-danger rounded text-danger fw-bold' : '')">
+                [[${client.gender.name}]]
+            </div>
         </div>
+
+        <!-- Email -->
         <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-            <div class="p-2">Email</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('email')} ? 'text-danger fw-bold' : '')">
+                <i th:if="${#fields.hasErrors('email')}" class="ri-error-warning-line text-danger"></i> Email
+            </div>
         </div>
         <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-            <div class="p-2">[[${client.email}]]</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('email')} ? 'border border-danger rounded text-danger fw-bold' : '')">
+                [[${client.email}]]
+            </div>
         </div>
+
+        <!-- Telefone -->
         <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
-            <div class="p-2">Telefone</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('phone')} ? 'text-danger fw-bold' : '')">
+                <i th:if="${#fields.hasErrors('phone')}" class="ri-error-warning-line text-danger"></i> Telefone
+            </div>
         </div>
         <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
-            <div class="p-2">[[${client.phone}]]</div>
+            <div th:class="'p-2 ' + (${#fields.hasErrors('phone')} ? 'border border-danger rounded text-danger fw-bold' : '')">
+                [[${client.phone}]]
+            </div>
         </div>
     </div>
+
 
     <h5>Endereços</h5>
     <div class="row g-0 mb-3">

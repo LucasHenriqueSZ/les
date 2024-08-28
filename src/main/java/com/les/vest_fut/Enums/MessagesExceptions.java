@@ -5,8 +5,9 @@ import lombok.Getter;
 @Getter
 public enum MessagesExceptions {
 
-    CPF_ALREADY_EXISTS("CPF já cadastrado"),
-    EMAIL_ALREADY_EXISTS("Email já cadastrado");
+    CPF_ALREADY_EXISTS("CPF já está em uso, tente outro"),
+    EMAIL_ALREADY_EXISTS("Email já está em uso, tente outro"),
+    CLIENT_NOT_FOUND("Cliente não encontrado");
 
     private final String message;
 

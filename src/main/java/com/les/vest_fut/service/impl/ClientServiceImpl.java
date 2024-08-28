@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void saveClient(UserEntity client) {
-        this.validateUniqueFields(client);
+        this.validateUniqueFields(client,null);
         Optional<Role> role = roleRepository.findByName("ROLE_USER");
         if (role.isEmpty()) {
             throw new RuntimeException();
@@ -39,13 +39,32 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(client);
     }
 
-    private void validateUniqueFields(UserEntity client) {
-        if (clientRepository.findByCpf(client.getCpf()).isPresent()) {
-            throw new UniqueFieldException(MessagesExceptions.CPF_ALREADY_EXISTS);
-        }
-
-        if (clientRepository.findByEmail(client.getEmail()).isPresent()) {
-            throw new RuntimeException(MessagesExceptions.EMAIL_ALREADY_EXISTS.getMessage());
-        }
+    @Override
+    public void editBasicInfoClient(UserEntity client, Long id) {
+        this.validateUniqueFields(client, id);
+        UserEntity clientUpdate = clientRepository.findById(id).orElseThrow(() -> new RuntimeException(MessagesExceptions.CLIENT_NOT_FOUND.getMessage()));
+        clientUpdate.setName(client.getName());
+        clientUpdate.setCpf(client.getCpf());
+        clientUpdate.setGender(client.getGender());
+        clientUpdate.setEmail(client.getEmail());
+        clientUpdate.setPhone(client.getPhone());
+        clientRepository.save(clientUpdate);
     }
+
+    private void validateUniqueFields(UserEntity client, Long clientId) {
+
+        clientRepository.findByCpf(client.getCpf()).ifPresent(existingClient -> {
+            if (!existingClient.getId().equals(clientId)) {
+                throw new UniqueFieldException(MessagesExceptions.CPF_ALREADY_EXISTS);
+            }
+        });
+
+        clientRepository.findByEmail(client.getEmail()).ifPresent(existingClient -> {
+            if (!existingClient.getId().equals(clientId)) {
+                throw new UniqueFieldException(MessagesExceptions.EMAIL_ALREADY_EXISTS);
+            }
+        });
+    }
+
+
 }

@@ -6,7 +6,18 @@ $(document).ready(function () {
     $('#cpf').mask('000.000.000-00');
 
     // Máscara para Telefone
-    $('#phone').mask('(00) 00000-0000');
+    $(document).ready(function() {
+        $('#phone').mask('(00) 0000-0000', {
+            onKeyPress: function(phone, e, field, options) {
+                const phoneNumber = phone.replace(/\D/g, '');
+                if (phoneNumber.length > 10) {
+                    $('#phone').mask('(00) 00000-0000', options);
+                } else if (phoneNumber.length <= 10) {
+                    $('#phone').mask('(00) 0000-0000?0', options);
+                }
+            }
+        });
+    });
 
     // Máscara para Número do Cartão
     $('#cardNumber').mask('0000 0000 0000 0000');
