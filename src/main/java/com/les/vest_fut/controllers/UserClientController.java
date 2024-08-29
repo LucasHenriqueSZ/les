@@ -9,14 +9,12 @@ import com.les.vest_fut.service.ClientService;
 import com.les.vest_fut.service.UserService;
 import com.les.vest_fut.utils.groups.OnBasicInfoValidation;
 import com.les.vest_fut.utils.groups.OnCreate;
+import com.les.vest_fut.utils.groups.OnPasswordValidation;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -72,9 +70,9 @@ public class UserClientController {
 
     @PostMapping("/editBasicInfo")
     public ModelAndView editBasicInfoUserClient(@Validated(OnBasicInfoValidation.class) @ModelAttribute("client") UserEntity client,
-                                       BindingResult bindingResult,
-                                       @AuthenticationPrincipal CustomUserDetails sessionUser,
-                                       RedirectAttributes attributes) {
+                                                BindingResult bindingResult,
+                                                @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                                RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             UserEntity currentUser = userService.getUserById(sessionUser.getUserEntity().getId());
             client.setAddresses(currentUser.getAddresses());
@@ -86,6 +84,36 @@ public class UserClientController {
             clientService.editBasicInfoClient(client, sessionUser.getUserEntity().getId());
             mv.setViewName("redirect:/cliente/perfil");
             attributes.addFlashAttribute("mensagem", MessagesSuccess.CLIENT_UPDATED.getMessage());
+        } catch (Exception e) {
+            attributes.addFlashAttribute("alert", e.getMessage());
+            mv.setViewName("redirect:/cliente/perfil");
+        }
+        return mv;
+    }
+
+    @PostMapping("/editPassword")
+    public ModelAndView editPasswordUserClient(@RequestParam("currentPassword") String currentPassword,
+                                               @Validated(OnPasswordValidation.class) @ModelAttribute("client") UserEntity client,
+                                               BindingResult bindingResult,
+                                               @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                               RedirectAttributes attributes) {
+
+        if (bindingResult.hasErrors()) {
+            UserEntity currentUser = userService.getUserById(sessionUser.getUserEntity().getId());
+            client.setAddresses(currentUser.getAddresses());
+            client.setCards(currentUser.getCards());
+            client.setName(currentUser.getName());
+            client.setEmail(currentUser.getEmail());
+            client.setPhone(currentUser.getPhone());
+            client.setCpf(currentUser.getCpf());
+            client.setGender(currentUser.getGender());
+            return profileClient(sessionUser, client);
+        }
+        ModelAndView mv = new ModelAndView();
+        try {
+            clientService.editPasswordClient(client, currentPassword, sessionUser.getUserEntity().getId());
+            mv.setViewName("redirect:/cliente/perfil");
+            attributes.addFlashAttribute("mensagem", MessagesSuccess.PASSWORD_UPDATED.getMessage());
         } catch (Exception e) {
             attributes.addFlashAttribute("alert", e.getMessage());
             mv.setViewName("redirect:/cliente/perfil");

@@ -4,6 +4,7 @@ import com.les.vest_fut.Enums.Gender;
 import com.les.vest_fut.annotations.ValidPassword;
 import com.les.vest_fut.utils.groups.OnBasicInfoValidation;
 import com.les.vest_fut.utils.groups.OnCreate;
+import com.les.vest_fut.utils.groups.OnPasswordValidation;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -79,8 +80,8 @@ public class UserEntity {
     @Column(name = "user_updated_at")
     private LocalDateTime updatedAt;
 
-    @NotBlank(message = "{NotBlank.client.password}", groups = {OnCreate.class})
-    @ValidPassword(groups = {OnCreate.class})
+    @NotBlank(message = "{NotBlank.client.password}", groups = {OnCreate.class, OnPasswordValidation.class})
+    @ValidPassword(groups = {OnCreate.class, OnPasswordValidation.class})
     @Column(name = "user_password", nullable = false)
     private String password;
 
@@ -93,7 +94,7 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
 
-    @AssertTrue(message = "{client.password.mismatch}", groups = {OnCreate.class})
+    @AssertTrue(message = "{client.password.mismatch}", groups = {OnCreate.class, OnPasswordValidation.class})
     public boolean isPasswordsMatching() {
         return this.password != null && this.password.equals(this.confirmPassword);
     }

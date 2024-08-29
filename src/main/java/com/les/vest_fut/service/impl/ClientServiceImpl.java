@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void saveClient(UserEntity client) {
-        this.validateUniqueFields(client,null);
+        this.validateUniqueFields(client, null);
         Optional<Role> role = roleRepository.findByName("ROLE_USER");
         if (role.isEmpty()) {
             throw new RuntimeException();
@@ -49,6 +49,16 @@ public class ClientServiceImpl implements ClientService {
         clientUpdate.setEmail(client.getEmail());
         clientUpdate.setPhone(client.getPhone());
         clientRepository.save(clientUpdate);
+    }
+
+    @Override
+    public void editPasswordClient(UserEntity client, String currentPassword, Long id) {
+        UserEntity currentClient = clientRepository.findById(id).orElseThrow(() -> new RuntimeException(MessagesExceptions.CLIENT_NOT_FOUND.getMessage()));
+        if (!passwordEncoder.matches(currentPassword, currentClient.getPassword())) {
+            throw new IllegalArgumentException(MessagesExceptions.CURRENT_PASSWORD_INVALID.getMessage());
+        }
+        currentClient.setPassword(passwordEncoder.encode(client.getPassword()));
+        clientRepository.save(currentClient);
     }
 
     private void validateUniqueFields(UserEntity client, Long clientId) {

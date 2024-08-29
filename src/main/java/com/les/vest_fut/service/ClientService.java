@@ -6,4 +6,6 @@ public interface ClientService {
     void saveClient(UserEntity client);
 
     void editBasicInfoClient(UserEntity client, Long id);
+
+    void editPasswordClient(UserEntity client, String currentPassword, Long id);
 }

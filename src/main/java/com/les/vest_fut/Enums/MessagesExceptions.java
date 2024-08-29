@@ -7,7 +7,8 @@ public enum MessagesExceptions {
 
     CPF_ALREADY_EXISTS("CPF já está em uso, tente outro"),
     EMAIL_ALREADY_EXISTS("Email já está em uso, tente outro"),
-    CLIENT_NOT_FOUND("Cliente não encontrado");
+    CLIENT_NOT_FOUND("Cliente não encontrado"),
+    CURRENT_PASSWORD_INVALID("Senha atual inválida");
 
     private final String message;
 
