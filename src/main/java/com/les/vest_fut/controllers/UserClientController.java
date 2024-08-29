@@ -1,8 +1,7 @@
 package com.les.vest_fut.controllers;
 
-import com.les.vest_fut.Enums.CardFlag;
-import com.les.vest_fut.Enums.Gender;
 import com.les.vest_fut.Enums.MessagesSuccess;
+import com.les.vest_fut.controllers.helpers.UserClientControllerHelper;
 import com.les.vest_fut.model.users.UserEntity;
 import com.les.vest_fut.security.CustomUserDetails;
 import com.les.vest_fut.service.ClientService;
@@ -32,21 +31,13 @@ public class UserClientController {
 
     @GetMapping("/perfil")
     public ModelAndView profileClient(@AuthenticationPrincipal CustomUserDetails sessionUser, UserEntity client) {
-        ModelAndView mv = new ModelAndView("public/pages/user/profile-client");
-        mv.addObject("client", client.hasValidObject() ? client : userService.getUserById(sessionUser.getUserEntity().getId()));
-        mv.addObject("genders", Gender.getAll());
-        mv.addObject("cardFlags", CardFlag.getAll());
-        return mv;
+        UserEntity sessionUserEntity = userService.getUserById(sessionUser.getUserEntity().getId());
+        return UserClientControllerHelper.prepareProfileView(client.hasValidObject() ? client : sessionUserEntity);
     }
-
 
     @GetMapping("/novo")
     public ModelAndView newUserClient(UserEntity client) {
-        ModelAndView mv = new ModelAndView("public/pages/user/create-user-client");
-        mv.addObject("client", client);
-        mv.addObject("genders", Gender.getAll());
-        mv.addObject("cardFlags", CardFlag.getAll());
-        return mv;
+        return UserClientControllerHelper.prepareNewUserView(client);
     }
 
     @PostMapping("/novo")
@@ -54,18 +45,17 @@ public class UserClientController {
                                        BindingResult bindingResult,
                                        RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-            return newUserClient(client);
+            return UserClientControllerHelper.prepareNewUserView(client);
         }
-        ModelAndView mv = new ModelAndView();
+
         try {
             clientService.saveClient(client);
-            mv.setViewName("redirect:/auth/login");
-            attributes.addFlashAttribute("mensagem", MessagesSuccess.CLIENT_REGISTERED.getMessage());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CLIENT_REGISTERED);
+            return new ModelAndView("redirect:/auth/login");
         } catch (Exception e) {
-            attributes.addFlashAttribute("alert", e.getMessage());
-            mv.setViewName("redirect:/cliente/novo");
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return new ModelAndView("redirect:/cliente/novo");
         }
-        return mv;
     }
 
     @PostMapping("/editBasicInfo")
@@ -75,20 +65,18 @@ public class UserClientController {
                                                 RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             UserEntity currentUser = userService.getUserById(sessionUser.getUserEntity().getId());
-            client.setAddresses(currentUser.getAddresses());
-            client.setCards(currentUser.getCards());
-            return profileClient(sessionUser, client);
+            UserClientControllerHelper.restoreClientData(client, currentUser);
+            return UserClientControllerHelper.prepareProfileView(client);
         }
-        ModelAndView mv = new ModelAndView();
+
         try {
             clientService.editBasicInfoClient(client, sessionUser.getUserEntity().getId());
-            mv.setViewName("redirect:/cliente/perfil");
-            attributes.addFlashAttribute("mensagem", MessagesSuccess.CLIENT_UPDATED.getMessage());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CLIENT_UPDATED);
+            return new ModelAndView("redirect:/cliente/perfil");
         } catch (Exception e) {
-            attributes.addFlashAttribute("alert", e.getMessage());
-            mv.setViewName("redirect:/cliente/perfil");
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return new ModelAndView("redirect:/cliente/perfil");
         }
-        return mv;
     }
 
     @PostMapping("/editPassword")
@@ -100,25 +88,17 @@ public class UserClientController {
 
         if (bindingResult.hasErrors()) {
             UserEntity currentUser = userService.getUserById(sessionUser.getUserEntity().getId());
-            client.setAddresses(currentUser.getAddresses());
-            client.setCards(currentUser.getCards());
-            client.setName(currentUser.getName());
-            client.setEmail(currentUser.getEmail());
-            client.setPhone(currentUser.getPhone());
-            client.setCpf(currentUser.getCpf());
-            client.setGender(currentUser.getGender());
-            return profileClient(sessionUser, client);
+            UserClientControllerHelper.restoreClientData(client, currentUser);
+            return UserClientControllerHelper.prepareProfileView(client);
         }
-        ModelAndView mv = new ModelAndView();
+
         try {
             clientService.editPasswordClient(client, currentPassword, sessionUser.getUserEntity().getId());
-            mv.setViewName("redirect:/cliente/perfil");
-            attributes.addFlashAttribute("mensagem", MessagesSuccess.PASSWORD_UPDATED.getMessage());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.PASSWORD_UPDATED);
+            return new ModelAndView("redirect:/cliente/perfil");
         } catch (Exception e) {
-            attributes.addFlashAttribute("alert", e.getMessage());
-            mv.setViewName("redirect:/cliente/perfil");
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return new ModelAndView("redirect:/cliente/perfil");
         }
-        return mv;
     }
-
 }
