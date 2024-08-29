@@ -51,10 +51,10 @@ public class UserClientController {
         try {
             clientService.saveClient(client);
             UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CLIENT_REGISTERED);
-            return new ModelAndView("redirect:/auth/login");
+            return UserClientControllerHelper.redirectLoginView();
         } catch (Exception e) {
             UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
-            return new ModelAndView("redirect:/cliente/novo");
+            return UserClientControllerHelper.redirectNewUserView();
         }
     }
 
@@ -72,10 +72,10 @@ public class UserClientController {
         try {
             clientService.editBasicInfoClient(client, sessionUser.getUserEntity().getId());
             UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CLIENT_UPDATED);
-            return new ModelAndView("redirect:/cliente/perfil");
+            return UserClientControllerHelper.redirectProfileView();
         } catch (Exception e) {
             UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
-            return new ModelAndView("redirect:/cliente/perfil");
+            return UserClientControllerHelper.redirectProfileView();
         }
     }
 
@@ -95,10 +95,10 @@ public class UserClientController {
         try {
             clientService.editPasswordClient(client, currentPassword, sessionUser.getUserEntity().getId());
             UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.PASSWORD_UPDATED);
-            return new ModelAndView("redirect:/cliente/perfil");
+            return UserClientControllerHelper.redirectProfileView();
         } catch (Exception e) {
             UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
-            return new ModelAndView("redirect:/cliente/perfil");
+            return UserClientControllerHelper.redirectProfileView();
         }
     }
 
@@ -109,10 +109,10 @@ public class UserClientController {
         try {
             clientService.removeCard(cardId, sessionUser.getUserEntity().getId());
             UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CARD_REMOVED);
-            return new ModelAndView("redirect:/cliente/perfil");
+            return UserClientControllerHelper.redirectProfileView();
         } catch (Exception e) {
             UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
-            return new ModelAndView("redirect:/cliente/perfil");
+            return UserClientControllerHelper.redirectProfileView();
         }
     }
 }

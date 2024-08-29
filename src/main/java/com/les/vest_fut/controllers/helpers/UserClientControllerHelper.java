@@ -26,6 +26,18 @@ public class UserClientControllerHelper {
         return mv;
     }
 
+    public static ModelAndView redirectProfileView() {
+        return new ModelAndView("redirect:/cliente/perfil");
+    }
+
+    public static ModelAndView redirectNewUserView() {
+        return new ModelAndView("redirect:/cliente/novo");
+    }
+
+    public static ModelAndView redirectLoginView() {
+        return new ModelAndView("redirect:/auth/login");
+    }
+
     public static void restoreClientData(UserEntity client, UserEntity currentUser) {
         client.setAddresses(currentUser.getAddresses());
         client.setCards(currentUser.getCards());
