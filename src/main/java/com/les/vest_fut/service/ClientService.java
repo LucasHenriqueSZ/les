@@ -8,4 +8,6 @@ public interface ClientService {
     void editBasicInfoClient(UserEntity client, Long id);
 
     void editPasswordClient(UserEntity client, String currentPassword, Long id);
+
+    void removeCard(Long cardId, Long id);
 }

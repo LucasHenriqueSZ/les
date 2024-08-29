@@ -26,18 +26,23 @@
                     <input type="hidden" th:name="cards[__${iterStat.index}__].holderName" th:value="${card.holderName}">
                     <input type="hidden" th:name="cards[__${iterStat.index}__].expiryDate" th:value="${card.expiryDate}">
                     <input type="hidden" th:name="cards[__${iterStat.index}__].cvv" th:value="${card.cvv}">
+                    <input type="hidden" th:name="cards[__${iterStat.index}__].flag" th:value="${card.flag}">
                     <p class="mb-1"><strong>Número do Cartão:</strong> <span th:text="${card.cardNumber}"></span></p>
                     <p class="mb-1"><strong>Nome do Titular:</strong> <span th:text="${card.holderName}"></span></p>
                     <p class="mb-1"><strong>Data de Validade:</strong> <span th:text="${card.expiryDate}"></span></p>
                     <p class="mb-1"><strong>Código CVV:</strong> <span th:text="${card.cvv}"></span></p>
+                    <p class="mb-1"><strong>Bandeira:</strong> <span th:text="${card.flagName}"></span></p>
                 </div>
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary btn-sm">
                         <i class="ri-pencil-line"></i> Editar
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm text-white">
-                        <i class="ri-delete-bin-line"></i> Excluir
-                    </button>
+                    <form th:action="@{/cliente/removeCard}" method="post" th:object="${card}">
+                        <input type="hidden" th:name="cardId" th:value="${card.id}"/>
+                        <button type="submit" class="btn btn-danger btn-sm text-white">
+                            <i class="ri-delete-bin-line"></i> Excluir
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

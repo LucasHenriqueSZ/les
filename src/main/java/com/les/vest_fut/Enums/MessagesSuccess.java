@@ -7,7 +7,8 @@ public enum MessagesSuccess {
 
     CLIENT_REGISTERED("Cadastro realizado com sucesso! Faça login para continuar."),
     CLIENT_UPDATED("Cadastro atualizado com sucesso!"),
-    PASSWORD_UPDATED("Senha atualizada com sucesso!");
+    PASSWORD_UPDATED("Senha atualizada com sucesso!"),
+    CARD_REMOVED("Cartão removido com sucesso!");
 
     private final String message;
 

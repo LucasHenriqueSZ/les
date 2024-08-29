@@ -61,6 +61,19 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(currentClient);
     }
 
+    @Override
+    public void removeCard(Long cardId, Long id) {
+        UserEntity client = clientRepository.findById(id).orElseThrow(() -> new RuntimeException(MessagesExceptions.CLIENT_NOT_FOUND.getMessage()));
+        if (client.getCards().stream().noneMatch(card -> card.getId().equals(cardId))) {
+            throw new RuntimeException(MessagesExceptions.CARD_NOT_FOUND.getMessage());
+        }
+        if (client.getCards().size() == 1) {
+            throw new RuntimeException(MessagesExceptions.CARD_REQUIRED.getMessage());
+        }
+        client.getCards().removeIf(card -> card.getId().equals(cardId));
+        clientRepository.save(client);
+    }
+
     private void validateUniqueFields(UserEntity client, Long clientId) {
 
         clientRepository.findByCpf(client.getCpf()).ifPresent(existingClient -> {

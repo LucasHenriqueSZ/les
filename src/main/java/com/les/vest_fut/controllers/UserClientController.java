@@ -101,4 +101,18 @@ public class UserClientController {
             return new ModelAndView("redirect:/cliente/perfil");
         }
     }
+
+    @PostMapping("/removeCard")
+    public ModelAndView removeCard(@RequestParam("cardId") Long cardId,
+                                   @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                   RedirectAttributes attributes) {
+        try {
+            clientService.removeCard(cardId, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CARD_REMOVED);
+            return new ModelAndView("redirect:/cliente/perfil");
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return new ModelAndView("redirect:/cliente/perfil");
+        }
+    }
 }
