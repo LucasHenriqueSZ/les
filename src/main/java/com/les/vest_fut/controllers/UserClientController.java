@@ -2,6 +2,7 @@ package com.les.vest_fut.controllers;
 
 import com.les.vest_fut.Enums.MessagesSuccess;
 import com.les.vest_fut.controllers.helpers.UserClientControllerHelper;
+import com.les.vest_fut.model.users.Card;
 import com.les.vest_fut.model.users.UserEntity;
 import com.les.vest_fut.security.CustomUserDetails;
 import com.les.vest_fut.service.ClientService;
@@ -109,6 +110,27 @@ public class UserClientController {
         try {
             clientService.removeCard(cardId, sessionUser.getUserEntity().getId());
             UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CARD_REMOVED);
+            return UserClientControllerHelper.redirectProfileView();
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectProfileView();
+        }
+    }
+
+    @PostMapping("/saveCard")
+    public ModelAndView saveCard(@Validated @ModelAttribute("card") Card card,
+                                 BindingResult bindingResult,
+                                 @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                 RedirectAttributes attributes) {
+
+        if (bindingResult.hasErrors()) {
+            UserClientControllerHelper.addErrorMessage(attributes, "Erro ao salvar cartão");
+            return UserClientControllerHelper.redirectProfileView();
+        }
+
+        try {
+            clientService.saveCard(card, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, card.getId() == null ? MessagesSuccess.CARD_REGISTERED : MessagesSuccess.CARD_UPDATED);
             return UserClientControllerHelper.redirectProfileView();
         } catch (Exception e) {
             UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());

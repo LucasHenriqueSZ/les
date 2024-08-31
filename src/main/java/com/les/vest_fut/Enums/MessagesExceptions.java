@@ -10,7 +10,8 @@ public enum MessagesExceptions {
     CLIENT_NOT_FOUND("Cliente não encontrado"),
     CURRENT_PASSWORD_INVALID("Senha atual inválida"),
     CARD_NOT_FOUND("Cartão não encontrado"),
-    CARD_REQUIRED("É necessário ter ao menos um cartão cadastrado");
+    CARD_REQUIRED("É necessário ter ao menos um cartão cadastrado"),
+    CARD_ALREADY_EXISTS("Cartão já cadastrado");
 
     private final String message;
 

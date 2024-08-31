@@ -21,6 +21,7 @@ $(document).ready(function () {
 
     // Máscara para Número do Cartão
     $('#cardNumber').mask('0000 0000 0000 0000');
+    $('input[name="cardNumber"]').mask('0000 0000 0000 0000');
 
     // Máscara para Data de Validade
     $('#expiryDate').mask('00/00');

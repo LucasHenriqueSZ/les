@@ -2,6 +2,7 @@ package com.les.vest_fut.service.impl;
 
 import com.les.vest_fut.Enums.MessagesExceptions;
 import com.les.vest_fut.exceptions.UniqueFieldException;
+import com.les.vest_fut.model.users.Card;
 import com.les.vest_fut.model.users.Role;
 import com.les.vest_fut.model.users.UserEntity;
 import com.les.vest_fut.repository.RoleRepository;
@@ -42,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void editBasicInfoClient(UserEntity client, Long id) {
         this.validateUniqueFields(client, id);
-        UserEntity clientUpdate = clientRepository.findById(id).orElseThrow(() -> new RuntimeException(MessagesExceptions.CLIENT_NOT_FOUND.getMessage()));
+        UserEntity clientUpdate = this.getClientById(id);
         clientUpdate.setName(client.getName());
         clientUpdate.setCpf(client.getCpf());
         clientUpdate.setGender(client.getGender());
@@ -53,7 +54,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void editPasswordClient(UserEntity client, String currentPassword, Long id) {
-        UserEntity currentClient = clientRepository.findById(id).orElseThrow(() -> new RuntimeException(MessagesExceptions.CLIENT_NOT_FOUND.getMessage()));
+        UserEntity currentClient = this.getClientById(id);
         if (!passwordEncoder.matches(currentPassword, currentClient.getPassword())) {
             throw new IllegalArgumentException(MessagesExceptions.CURRENT_PASSWORD_INVALID.getMessage());
         }
@@ -63,7 +64,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void removeCard(Long cardId, Long id) {
-        UserEntity client = clientRepository.findById(id).orElseThrow(() -> new RuntimeException(MessagesExceptions.CLIENT_NOT_FOUND.getMessage()));
+        UserEntity client = this.getClientById(id);
         if (client.getCards().stream().noneMatch(card -> card.getId().equals(cardId))) {
             throw new RuntimeException(MessagesExceptions.CARD_NOT_FOUND.getMessage());
         }
@@ -72,6 +73,51 @@ public class ClientServiceImpl implements ClientService {
         }
         client.getCards().removeIf(card -> card.getId().equals(cardId));
         clientRepository.save(client);
+    }
+
+    @Override
+    public void saveCard(Card card, Long id) {
+        UserEntity client = this.getClientById(id);
+        if (card.getId() != null) {
+            this.updateCard(card, client);
+            return;
+        }
+        this.addNewCard(card, client);
+
+    }
+
+    private void updateCard(Card card, UserEntity client) {
+        this.validateUniqueCard(card, client);
+        client.getCards().stream()
+                .filter(c -> c.getId().equals(card.getId()))
+                .findFirst()
+                .ifPresent(c -> {
+                    c.setFlag(card.getFlag());
+                    c.setCardNumber(card.getCardNumber());
+                    c.setCvv(card.getCvv());
+                    c.setExpiryDate(card.getExpiryDate());
+                    c.setHolderName(card.getHolderName());
+                });
+        clientRepository.save(client);
+    }
+
+    private void addNewCard(Card card, UserEntity client) {
+        this.validateUniqueCard(card, client);
+        client.getCards().add(card);
+        clientRepository.save(client);
+    }
+
+    private void validateUniqueCard(Card card, UserEntity client) {
+        client.getCards().stream()
+                .filter(c -> c.getCardNumber().equals(card.getCardNumber()))
+                .findFirst()
+                .ifPresent(c -> {
+                    throw new UniqueFieldException(MessagesExceptions.CARD_ALREADY_EXISTS);
+                });
+    }
+
+    private UserEntity getClientById(Long id) {
+        return clientRepository.findById(id).orElseThrow(() -> new RuntimeException(MessagesExceptions.CLIENT_NOT_FOUND.getMessage()));
     }
 
     private void validateUniqueFields(UserEntity client, Long clientId) {
