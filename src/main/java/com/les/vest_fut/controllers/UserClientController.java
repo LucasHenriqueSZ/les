@@ -118,6 +118,20 @@ public class UserClientController {
         }
     }
 
+    @PostMapping("/removeAddress")
+    public ModelAndView removeAddress(@RequestParam("addressId") Long addressId,
+                                   @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                   RedirectAttributes attributes) {
+        try {
+            clientService.removeAddress(addressId, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.ADDRESS_REMOVED);
+            return UserClientControllerHelper.redirectProfileView();
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectProfileView();
+        }
+    }
+
     @PostMapping("/saveCard")
     public ModelAndView saveCard(@Validated @ModelAttribute("card") Card card,
                                  BindingResult bindingResult,

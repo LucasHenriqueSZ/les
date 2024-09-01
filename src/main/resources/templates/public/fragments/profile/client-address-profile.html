@@ -51,9 +51,12 @@
                         <i class="ri-pencil-line"></i> Editar
                     </button>
 
-                    <button type="button" class="btn btn-danger btn-sm text-white">
-                        <i class="ri-delete-bin-line"></i> Remover
-                    </button>
+                    <form th:action="@{/cliente/removeAddress}" method="post" th:object="${address}">
+                        <input type="hidden" th:name="addressId" th:value="${address.id}"/>
+                        <button type="submit" class="btn btn-danger btn-sm text-white">
+                            <i class="ri-delete-bin-line"></i> Remover
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

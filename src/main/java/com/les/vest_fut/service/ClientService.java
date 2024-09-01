@@ -16,4 +16,6 @@ public interface ClientService {
     void saveCard(Card card, Long id);
 
     void saveAddress(Address address, Long id);
+
+    void removeAddress(Long addressId, Long id);
 }

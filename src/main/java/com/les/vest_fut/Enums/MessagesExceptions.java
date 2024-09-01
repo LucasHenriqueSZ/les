@@ -12,7 +12,9 @@ public enum MessagesExceptions {
     CARD_NOT_FOUND("Cartão não encontrado"),
     CARD_REQUIRED("É necessário ter ao menos um cartão cadastrado"),
     CARD_ALREADY_EXISTS("Cartão já cadastrado"),
-    ADDRESS_ALREADY_EXISTS("Endereço já cadastrdo");
+    ADDRESS_ALREADY_EXISTS("Endereço já cadastrdo"),
+    ADDRESS_NOT_FOUND("Endereço não encontrado"),
+    ADDRESS_REQUIRED("É necessário ter ao menos um endereço cadastrado");
 
     private final String message;
 

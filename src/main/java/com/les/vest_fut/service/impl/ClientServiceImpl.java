@@ -97,6 +97,19 @@ public class ClientServiceImpl implements ClientService {
         this.addNewAddress(address, client);
     }
 
+    @Override
+    public void removeAddress(Long addressId, Long id) {
+        UserEntity client = this.getClientById(id);
+        if (client.getAddresses().stream().noneMatch(address -> address.getId().equals(addressId))) {
+            throw new RuntimeException(MessagesExceptions.ADDRESS_NOT_FOUND.getMessage());
+        }
+        if (client.getAddresses().size() == 1) {
+            throw new RuntimeException(MessagesExceptions.ADDRESS_REQUIRED.getMessage());
+        }
+        client.getAddresses().removeIf(address -> address.getId().equals(addressId));
+        clientRepository.save(client);
+    }
+
     private void addNewAddress(Address address, UserEntity client) {
         this.validateUniqueAddress(address, client);
         client.getAddresses().add(address);
