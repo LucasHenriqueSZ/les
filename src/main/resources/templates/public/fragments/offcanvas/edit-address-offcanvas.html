@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div th:fragment="edit-address-offcanvas(address, uniqueId)">
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1"
+         th:id="'offcanvasAddress_' + ${uniqueId}" aria-labelledby="offcanvasAddressLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasAddressLabel">Adicionar Novo Endereço</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form th:id="'addressForm_' + ${uniqueId}" th:action="@{/cliente/saveAddress}" method="post">
+                <input type="hidden" th:id="'addressId_' +  ${uniqueId}" name="id" th:value="${address != null} ? ${address.id} : ''">
+                <div class="mb-3">
+                    <label th:for="'zipCode_' + ${uniqueId}" class="form-label">CEP<span
+                            class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'zipCode_' + ${uniqueId}" name="zipCode"
+                           placeholder="Digite o CEP"
+                           maxlength="9" th:value="${address != null} ? ${address.zipCode} : ''">
+                    <div th:id="'zipCodeError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'street_' + ${uniqueId}" class="form-label">Rua<span
+                            class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'street_' + ${uniqueId}" name="street"
+                           placeholder="Digite o nome da rua" th:value="${address != null} ? ${address.street} : ''">
+                    <div th:id="'streetError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'number_' + ${uniqueId}" class="form-label">Número<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'number_' + ${uniqueId}" name="number"
+                           placeholder="Digite o número" th:value="${address != null} ? ${address.number} : ''">
+                    <div th:id="'numberError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'complement_' + ${uniqueId}" class="form-label">Complemento</label>
+                    <input type="text" class="form-control" th:id="'complement_' + ${uniqueId}" name="complement"
+                           placeholder="Digite o complemento"
+                           th:value="${address != null} ? ${address.complement} : ''">
+                    <div th:id="'complementError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'neighborhood_' + ${uniqueId}" class="form-label">Bairro<span
+                            class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'neighborhood_' + ${uniqueId}" name="neighborhood"
+                           placeholder="Digite o bairro" th:value="${address != null} ? ${address.neighborhood} : ''">
+                    <div th:id="'neighborhoodError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'city_' + ${uniqueId}" class="form-label">Cidade<span
+                            class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'city_' + ${uniqueId}" name="city"
+                           placeholder="Digite a cidade" th:value="${address != null} ? ${address.city} : ''">
+                    <div th:id="'cityError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'state_' + ${uniqueId}" class="form-label">Estado<span
+                            class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'state_' + ${uniqueId}" name="state"
+                           placeholder="Digite o estado (XX)" maxlength="2"
+                           th:value="${address != null} ? ${address.state} : ''">
+                    <div th:id="'stateError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+
+                <button type="button" class="btn btn-primary" th:id="'submitAddress_' + ${uniqueId}">
+                    Adicionar Endereço
+                </button>
+            </form>
+        </div>
+    </div>
+    <script th:src="@{/js/libs/jquery.min.js}"></script>
+    <script th:src="@{/js/address-form.js}"></script>
+</div>
+</body>
+</html>

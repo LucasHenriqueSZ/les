@@ -2,6 +2,7 @@ package com.les.vest_fut.service.impl;
 
 import com.les.vest_fut.Enums.MessagesExceptions;
 import com.les.vest_fut.exceptions.UniqueFieldException;
+import com.les.vest_fut.model.users.Address;
 import com.les.vest_fut.model.users.Card;
 import com.les.vest_fut.model.users.Role;
 import com.les.vest_fut.model.users.UserEntity;
@@ -86,6 +87,40 @@ public class ClientServiceImpl implements ClientService {
 
     }
 
+    @Override
+    public void saveAddress(Address address, Long id) {
+        UserEntity client = this.getClientById(id);
+        if (address.getId() != null) {
+            this.updateAddress(address, client);
+            return;
+        }
+        this.addNewAddress(address, client);
+    }
+
+    private void addNewAddress(Address address, UserEntity client) {
+        this.validateUniqueAddress(address, client);
+        client.getAddresses().add(address);
+        clientRepository.save(client);
+    }
+
+
+    private void updateAddress(Address address, UserEntity client) {
+        this.validateUniqueAddress(address, client);
+        client.getAddresses().stream()
+                .filter(a -> a.getId().equals(address.getId()))
+                .findFirst()
+                .ifPresent(a -> {
+                    a.setZipCode(address.getZipCode());
+                    a.setStreet(address.getStreet());
+                    a.setNumber(address.getNumber());
+                    a.setComplement(address.getComplement());
+                    a.setNeighborhood(address.getNeighborhood());
+                    a.setCity(address.getCity());
+                    a.setState(address.getState());
+                });
+        clientRepository.save(client);
+    }
+
     private void updateCard(Card card, UserEntity client) {
         this.validateUniqueCard(card, client);
         client.getCards().stream()
@@ -107,9 +142,24 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(client);
     }
 
+    private void validateUniqueAddress(Address address, UserEntity client) {
+        client.getAddresses().stream()
+                .filter(a -> a.getZipCode().equals(address.getZipCode())
+                        && a.getStreet().equals(address.getStreet())
+                        && a.getNumber().equals(address.getNumber())
+                        && (address.getId() == null || !a.getId().equals(address.getId()))
+                )
+                .findFirst()
+                .ifPresent(a -> {
+                    throw new UniqueFieldException(MessagesExceptions.ADDRESS_ALREADY_EXISTS);
+                });
+    }
+
     private void validateUniqueCard(Card card, UserEntity client) {
         client.getCards().stream()
-                .filter(c -> c.getCardNumber().equals(card.getCardNumber()))
+                .filter(c -> c.getCardNumber().equals(card.getCardNumber())
+                        && (card.getId() == null || !c.getId().equals(card.getId()))
+                )
                 .findFirst()
                 .ifPresent(c -> {
                     throw new UniqueFieldException(MessagesExceptions.CARD_ALREADY_EXISTS);

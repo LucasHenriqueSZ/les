@@ -2,6 +2,7 @@ package com.les.vest_fut.controllers;
 
 import com.les.vest_fut.Enums.MessagesSuccess;
 import com.les.vest_fut.controllers.helpers.UserClientControllerHelper;
+import com.les.vest_fut.model.users.Address;
 import com.les.vest_fut.model.users.Card;
 import com.les.vest_fut.model.users.UserEntity;
 import com.les.vest_fut.security.CustomUserDetails;
@@ -137,4 +138,27 @@ public class UserClientController {
             return UserClientControllerHelper.redirectProfileView();
         }
     }
+
+    @PostMapping("/saveAddress")
+    public ModelAndView saveAddress(@Validated @ModelAttribute("address") Address address,
+                                 BindingResult bindingResult,
+                                 @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                 RedirectAttributes attributes) {
+
+        if (bindingResult.hasErrors()) {
+            UserClientControllerHelper.addErrorMessage(attributes, "Erro ao salvar endereço");
+            return UserClientControllerHelper.redirectProfileView();
+        }
+
+        try {
+            clientService.saveAddress(address, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, address.getId() == null ? MessagesSuccess.ADDRESS_REGISTERED : MessagesSuccess.ADDRESS_UPDATED);
+            return UserClientControllerHelper.redirectProfileView();
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectProfileView();
+        }
+    }
+
+
 }

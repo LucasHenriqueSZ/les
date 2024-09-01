@@ -3,8 +3,6 @@ $(document).ready(function () {
 
     $('button[id^="submitCreditCardEdit_"]').on('click', function (event) {
         event.preventDefault();
-        debugger
-
         const uniqueId = $(this).attr('id').split('_')[1];
         const form = $(`#creditCardForm_${uniqueId}`);
         const formData = form.serializeArray();
@@ -88,7 +86,6 @@ function validateFormDataCreditCard(jsonData, uniqueId) {
             isValid = true;
         },
         error: function (response) {
-            debugger
             handleValidationErrorsFormData(response, uniqueId);
             isValid = false;
         }
@@ -97,23 +94,6 @@ function validateFormDataCreditCard(jsonData, uniqueId) {
     return isValid;
 }
 
-function handleValidationErrorsFormData(response, uniqueId) {
-    const errors = response.responseJSON;
-    $('.text-danger').hide();
-    $.each(errors, function (index, error) {
-        const field = error.field;
-        const message = error.defaultMessage;
-        $('#' + field + 'Error_' + uniqueId).text(message).show();
-    });
-}
-
-function clearErrors() {
-    $('#cardNumberError').hide();
-    $('#holderNameError').hide();
-    $('#expiryDateError').hide();
-    $('#cvvError').hide();
-    $('#flagError').hide();
-}
 
 function addCreditCardToContainer(data) {
     const creditCardContainer = $('#creditCardContainer');

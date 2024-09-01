@@ -1,5 +1,6 @@
 package com.les.vest_fut.service;
 
+import com.les.vest_fut.model.users.Address;
 import com.les.vest_fut.model.users.Card;
 import com.les.vest_fut.model.users.UserEntity;
 
@@ -13,4 +14,6 @@ public interface ClientService {
     void removeCard(Long cardId, Long id);
 
     void saveCard(Card card, Long id);
+
+    void saveAddress(Address address, Long id);
 }

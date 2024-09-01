@@ -1,6 +1,7 @@
 $(document).ready(function () {
     // Máscara para CEP
     $('#zipCode').mask('00000-000');
+    $('input[name="zipCode"]').mask('00000-000');
 
     // Máscara para CPF
     $('#cpf').mask('000.000.000-00');

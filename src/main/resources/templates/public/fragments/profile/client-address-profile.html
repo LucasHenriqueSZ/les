@@ -9,13 +9,15 @@
 
     <div class="row g-0 mb-3 ">
         <div class="col-12">
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddress"
-                    aria-controls="offcanvasAddress">
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasAddress_New"
+                    aria-controls="offcanvasAddress_New">
                 <i class="ri-add-line me-2"></i>Adicionar Novo Endereço
             </button>
-            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
         </div>
     </div>
+
+    <div th:replace="public/fragments/offcanvas/edit-address-offcanvas :: edit-address-offcanvas(address=null, uniqueId='New' )"></div>
 
     <div th:each="address, iterStat : ${client.addresses}">
         <div class="card mb-3">
@@ -40,9 +42,15 @@
                     <p class="mb-1"><strong>Estado:</strong> <span th:text="${address.state}"></span></p>
                 </div>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary btn-sm">
+                    <div th:replace="public/fragments/offcanvas/edit-address-offcanvas :: edit-address-offcanvas(address=${address}, uniqueId=${iterStat.index})"></div>
+
+                    <button type="button" class="btn btn-primary btn-sm"
+                            data-bs-toggle="offcanvas"
+                            th:data-bs-target="'#offcanvasAddress_' + ${iterStat.index}"
+                            th:aria-controls="'offcanvasAddress_' + ${iterStat.index}">
                         <i class="ri-pencil-line"></i> Editar
                     </button>
+
                     <button type="button" class="btn btn-danger btn-sm text-white">
                         <i class="ri-delete-bin-line"></i> Remover
                     </button>

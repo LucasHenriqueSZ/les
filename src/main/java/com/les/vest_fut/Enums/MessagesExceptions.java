@@ -11,7 +11,8 @@ public enum MessagesExceptions {
     CURRENT_PASSWORD_INVALID("Senha atual inválida"),
     CARD_NOT_FOUND("Cartão não encontrado"),
     CARD_REQUIRED("É necessário ter ao menos um cartão cadastrado"),
-    CARD_ALREADY_EXISTS("Cartão já cadastrado");
+    CARD_ALREADY_EXISTS("Cartão já cadastrado"),
+    ADDRESS_ALREADY_EXISTS("Endereço já cadastrdo");
 
     private final String message;
 

@@ -19,7 +19,7 @@
             <div class="row justify-content-md-center">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
                     <h2 class="mb-4 display-5 text-center text-dark">Perfil</h2>
-                    <p class="text-center text-dark lead fs-4 mb-1">Olá, [[${client.name}]]! Bem-vindo(a) à sua página
+                    <p class="text-center text-dark lead fs-4 mb-1">Olá, [[${client.name}]] ! Bem-vindo(a) à sua página
                         de perfil.</p>
                     <p class="text-secondary text-center lead fs-4 mb-5">Aqui você pode gerenciar suas informações
                         pessoais, visualizar seus pedidos e ajustar suas preferências para melhorar sua experiência em
@@ -133,15 +133,13 @@
                 </div>
             </div>
         </div>
-
     </section>
-
 </main>
 
-<div th:replace="public/fragments/offcanvas/new-address-offcanvas"></div>
 <div th:replace="public/fragments/footer :: footer"></div>
 <script th:src="@{/js/libs/jquery.mask.min.js}"></script>
 <script th:src="@{/js/masks.js}"></script>
+<script th:src="@{/js/viaCep.js}"></script>
 <script th:src="@{/js/address-form.js}"></script>
 <script th:src="@{/js/credit-card-form.js}"></script>
 </body>
