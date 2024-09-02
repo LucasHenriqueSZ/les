@@ -13,7 +13,8 @@ public enum MessagesSuccess {
     CARD_REGISTERED("Cartão cadastrado com sucesso!"),
     ADDRESS_REGISTERED("Endereço cadastrado com sucesso!"),
     ADDRESS_UPDATED("Endereço atualizado com sucesso!"),
-    ADDRESS_REMOVED("Endereço removido com sucesso!");
+    ADDRESS_REMOVED("Endereço removido com sucesso!"),
+    CLIENT_STATUS_ALTERED("Status do cliente alterado com sucesso!");
 
     private final String message;
 

@@ -4,6 +4,8 @@ import com.les.vest_fut.model.users.Address;
 import com.les.vest_fut.model.users.Card;
 import com.les.vest_fut.model.users.UserEntity;
 
+import java.util.List;
+
 public interface ClientService {
     void saveClient(UserEntity client);
 
@@ -18,4 +20,10 @@ public interface ClientService {
     void saveAddress(Address address, Long id);
 
     void removeAddress(Long addressId, Long id);
+
+    List<UserEntity> getAllClients();
+
+    void alterStatus(Long id);
+
+    void editPasswordAdmin(UserEntity client, Long clientId);
 }

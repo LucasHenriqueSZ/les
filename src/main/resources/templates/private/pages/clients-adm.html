@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>admin clientes</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+          rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="private/fragments/sidebar :: sidebar"></div>
+<main class="main-adm">
+    <div class="container mt-5">
+        <h2 class="mb-4">Listagem de Clientes</h2>
+        <div th:if="${not #lists.isEmpty(mensagem)}" class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            <i class="ri-checkbox-circle-line"></i> <span th:text="${mensagem}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-7">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="filterName" placeholder="Filtrar por nome"
+                           aria-label="Filtrar por nome" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
+                            class="ri-search-2-line"></i></button>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <select class="form-select" id="filterStatus">
+                    <option value="">Todos os Clientes</option>
+                    <option value="active">Ativo</option>
+                    <option value="inactive">Inativo</option>
+                </select>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="client, iterStat : ${clients}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${client.name}"></td>
+                <td th:text="${client.email}"></td>
+                <td>
+                    <span th:classappend="${client.active ? 'bg-success' : 'bg-danger'}" class="badge"
+                          th:text="${client.active ? 'Ativo' : 'Inativo'}"></span>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center gap-1">
+                        <div th:replace="private/fragments/modals/modal-overview-client :: modal-overview-client(currentClient=${client}, uniqueId=${client.id})"></div>
+                        <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal"
+                                th:data-bs-target="'#editClientModal_' + ${client.id}"> Detalhes
+                        </button>
+                        <form th:action="@{/admin/clientes/alter-status}" method="post" th:object="${client}">
+                            <input type="hidden" name="id" th:value="${client.id}"/>
+                            <button th:if="${client.active}" class="btn btn-danger btn-sm" type="submit">Desativar
+                            </button>
+                            <button th:unless="${client.active}" class="btn btn-success btn-sm" type="submit">Ativar
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Próximo</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hasErrors = [[${hasErrors}]];
+            const errorClientId = [[${clientTemplate.id}]];
+            const modalElement = document.getElementById('editClientModal_' + errorClientId);
+            if (hasErrors && modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+
+                const overviewTab = modalElement.querySelector('#overview-tab');
+                overviewTab.classList.remove('active');
+                overviewTab.setAttribute('aria-selected', 'false');
+
+                const overviewTabPane = modalElement.querySelector('#overview-tab-pane_' + errorClientId);
+                overviewTabPane.classList.remove('show', 'active');
+
+                const passwordTab = modalElement.querySelector('#password-tab');
+                passwordTab.classList.add('active');
+                passwordTab.setAttribute('aria-selected', 'true');
+
+                const passwordTabPane = modalElement.querySelector('#password-tab-pane_' + errorClientId);
+                passwordTabPane.classList.add('show', 'active');
+
+                modal.show();
+            }
+        });
+    </script>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="container" th:fragment="overview-admin-profile(currentClient)" th:object="${currentClient}">
+    <div class="row g-0 mb-3">
+        <!-- Nome -->
+        <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
+            <div th:class="p-2">
+                Nome
+            </div>
+        </div>
+        <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
+            <div class="p-2">
+                <span th:text="${currentClient.name}"></span>
+            </div>
+        </div>
+
+        <!-- CPF -->
+        <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
+            <div class="p-2 ">
+                CPF
+            </div>
+        </div>
+        <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
+            <div class="p-2 ">
+                <span th:text="${currentClient.cpf}"></span>
+            </div>
+        </div>
+
+        <!-- Gênero -->
+        <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
+            <div class="p-2 ">
+                Gênero
+            </div>
+        </div>
+        <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
+            <div class="p-2 ">
+                <span th:text="${currentClient.gender.name}"></span>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
+            <div class="p-2 ">
+                Email
+            </div>
+        </div>
+        <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
+            <div class="p-2 ">
+                <span th:text="${currentClient.email}"></span>
+            </div>
+        </div>
+
+        <!-- Telefone -->
+        <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
+            <div class="p-2 ">
+                Telefone
+            </div>
+        </div>
+        <div class="col-7 col-md-9 bg-light border-start border-bottom border-white border-3">
+            <div class="p-2 ">
+                <span th:text="${currentClient.phone}"></span>
+            </div>
+        </div>
+    </div>
+
+    <h5>Endereços</h5>
+    <div class="row g-0 mb-3">
+        <div class="col-12">
+            <ul class="list-group">
+                <li class="list-group-item" th:each="address : ${currentClient.addresses}">
+                    [[${address.street}]], [[${address.number}]], [[${address.complement}]],
+                    [[${address.neighborhood}]], [[${address.city}]] - [[${address.state}]], CEP: [[${address.zipCode}]]
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <h5>Cartões</h5>
+    <div class="row g-0 mb-2">
+        <div class="col-12">
+            <ul class="list-group">
+                <li class="list-group-item" th:each="card : ${currentClient.cards}">
+                    Número: [[${card.cardNumber}]], Nome: [[${card.holderName}]], Validade: [[${card.expiryDate}]], CVV:
+                    [[${card.cvv}]]
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

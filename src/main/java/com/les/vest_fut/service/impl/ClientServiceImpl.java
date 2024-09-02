@@ -110,6 +110,23 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(client);
     }
 
+    @Override
+    public List<UserEntity> getAllClients() {
+        return clientRepository.findAll();
+    }
+
+    @Override
+    public void alterStatus(Long id) {
+        UserEntity client = this.getClientById(id);
+        client.setActive(!client.isActive());
+        clientRepository.save(client);
+    }
+
+    @Override
+    public void editPasswordAdmin(UserEntity client, Long clientId) {
+
+    }
+
     private void addNewAddress(Address address, UserEntity client) {
         this.validateUniqueAddress(address, client);
         client.getAddresses().add(address);

@@ -2,13 +2,11 @@ package com.les.vest_fut.controllers.helpers;
 
 import com.les.vest_fut.Enums.CardFlag;
 import com.les.vest_fut.Enums.Gender;
-import com.les.vest_fut.Enums.MessagesSuccess;
 import com.les.vest_fut.model.users.UserEntity;
 
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-public class UserClientControllerHelper {
+public class UserClientControllerHelper  extends CommonControllerHelper{
 
     public static ModelAndView prepareProfileView(UserEntity client) {
         ModelAndView mv = new ModelAndView("public/pages/user/profile-client");
@@ -48,11 +46,4 @@ public class UserClientControllerHelper {
         client.setGender(currentUser.getGender());
     }
 
-    public static void addSuccessMessage(RedirectAttributes attributes, MessagesSuccess message) {
-        attributes.addFlashAttribute("mensagem", message.getMessage());
-    }
-
-    public static void addErrorMessage(RedirectAttributes attributes, String errorMessage) {
-        attributes.addFlashAttribute("alert", errorMessage);
-    }
 }
