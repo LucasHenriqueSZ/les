@@ -124,7 +124,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void editPasswordAdmin(UserEntity client, Long clientId) {
-
+        UserEntity currentClient = this.getClientById(clientId);
+        currentClient.setPassword(passwordEncoder.encode(client.getPassword()));
+        clientRepository.save(currentClient);
     }
 
     private void addNewAddress(Address address, UserEntity client) {
