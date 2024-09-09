@@ -1,5 +1,6 @@
 package com.les.vest_fut.security;
 
+import com.les.vest_fut.security.handlers.CustomAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -44,7 +46,7 @@ public class SecurityConfig {
                         form -> form
                                 .loginPage("/auth/login")
                                 .loginProcessingUrl("/auth/login")
-                                .defaultSuccessUrl("/home", true)
+                                .successHandler(customAuthenticationSuccessHandler())
                                 .failureUrl("/auth/login?error=true")
                                 .permitAll()
                 ).logout(
@@ -52,6 +54,11 @@ public class SecurityConfig {
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout")).permitAll()
                 );
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
     }
 
     public void configure(AuthenticationManagerBuilder builder) throws Exception {

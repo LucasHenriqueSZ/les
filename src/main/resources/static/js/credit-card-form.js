@@ -1,6 +1,19 @@
 $(document).ready(function () {
     $('#submitcreditCard').on('click', handleCreditCardSubmission);
 
+    $('button[id^="submitCreditCardEdit_"]').on('click', function (event) {
+        event.preventDefault();
+        const uniqueId = $(this).attr('id').split('_')[1];
+        const form = $(`#creditCardForm_${uniqueId}`);
+        const formData = form.serializeArray();
+        const jsonData = serializeFormData(formData);
+        jsonData['cardNumber'] = jsonData['cardNumber'].replace(/\s/g, '');
+        if (validateFormDataCreditCard(jsonData, uniqueId)) {
+            form.find('input[name="cardNumber"]').val(jsonData['cardNumber']);
+            form.off('submit').submit();
+        }
+    });
+
     $('#creditCardContainer').on('click', '.remove-creditCard', function () {
         $(this).closest('.creditCard-item').remove();
     });
@@ -40,7 +53,7 @@ function isDuplicateCreditCard(jsonData) {
     return isDuplicate;
 }
 
-function validateAndAddCreditCard(jsonData, form) {;
+function validateAndAddCreditCard(jsonData, form) {
     $.ajax({
         url: '/card/validate',
         method: 'POST',
@@ -58,6 +71,29 @@ function validateAndAddCreditCard(jsonData, form) {;
         }
     });
 }
+
+function validateFormDataCreditCard(jsonData, uniqueId) {
+    let isValid = true;
+
+    $.ajax({
+        url: '/card/validate',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(jsonData),
+        async: false,
+        success: function () {
+            clearErrors();
+            isValid = true;
+        },
+        error: function (response) {
+            handleValidationErrorsFormData(response, uniqueId);
+            isValid = false;
+        }
+    });
+
+    return isValid;
+}
+
 
 function addCreditCardToContainer(data) {
     const creditCardContainer = $('#creditCardContainer');

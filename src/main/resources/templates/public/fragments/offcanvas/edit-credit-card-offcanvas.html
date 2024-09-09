@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar/Adicionar Cartão</title>
+</head>
+<body>
+<div th:fragment="edit-credit-card-offcanvas(card, uniqueId)">
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1"
+         th:id="'offcanvasCreditCard_' + ${uniqueId}" aria-labelledby="offcanvasCreditCardLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasCreditCardLabel"
+                th:text="${card != null} ? 'Editar Cartão' : 'Adicionar Novo Cartão'"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form th:id="'creditCardForm_' +  ${uniqueId}" th:action="@{/cliente/saveCard}" method="post">
+                <input type="hidden" th:id="'cardId_' +  ${uniqueId}" name="id" th:value="${card != null} ? ${card.id} : ''">
+                <div class="mb-3">
+                    <label th:for="'cardNumber_' +  ${uniqueId}" class="form-label">Número do Cartão<span
+                            class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'cardNumber_' +  ${uniqueId}" name="cardNumber"
+                           placeholder="Digite o número do cartão"
+                           maxlength="19" th:value="${card != null} ? ${card.cardNumber} : ''">
+                    <div th:id="'cardNumberError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'flag_' +  ${uniqueId}" class="form-label">Selecione a Bandeira do Cartão<span
+                            class="text-danger">*</span></label>
+                    <select class="form-select" th:id="'flag_' +  ${uniqueId}" name="flag">
+                        <option value="" disabled>Selecione a bandeira</option>
+                        <option th:each="flag : ${cardFlags}" th:value="${flag}" th:text="${flag.name}"
+                                th:selected="${card != null and card.flag == flag}">Bandeira
+                        </option>
+                    </select>
+                    <div th:id="'flagError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'holderName_' +  ${uniqueId}" class="form-label">Nome do Titular<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'holderName_' +  ${uniqueId}" name="holderName"
+                           placeholder="Digite o nome do titular" th:value="${card != null} ? ${card.holderName} : ''">
+                    <div th:id="'holderNameError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'expiryDate_' +  ${uniqueId}" class="form-label">Data de Validade<span
+                            class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'expiryDate_' +  ${uniqueId}" name="expiryDate" placeholder="MM/AA"
+                           maxlength="5" th:value="${card != null} ? ${card.expiryDate} : ''">
+                    <div th:id="'expiryDateError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label th:for="'cvv_' +  ${uniqueId}" class="form-label">Código CVV<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:id="'cvv_' +  ${uniqueId}" name="cvv" placeholder="Digite o CVV"
+                           maxlength="3" th:value="${card != null} ? ${card.cvv} : ''">
+                    <div th:id="'cvvError_' + ${uniqueId}" class="text-danger" style="display: none;"></div>
+                </div>
+                <button type="button" class="btn btn-primary" th:id="'submitCreditCardEdit_' + ${uniqueId}"
+                        th:text="${card != null} ? 'Salvar Alterações' : 'Adicionar Cartão'"></button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

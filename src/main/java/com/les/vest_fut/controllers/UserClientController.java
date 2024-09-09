@@ -1,97 +1,178 @@
 package com.les.vest_fut.controllers;
 
-import com.les.vest_fut.Enums.CardFlag;
-import com.les.vest_fut.Enums.Gender;
 import com.les.vest_fut.Enums.MessagesSuccess;
+import com.les.vest_fut.controllers.helpers.UserClientControllerHelper;
 import com.les.vest_fut.model.users.Address;
 import com.les.vest_fut.model.users.Card;
 import com.les.vest_fut.model.users.UserEntity;
+import com.les.vest_fut.security.CustomUserDetails;
 import com.les.vest_fut.service.ClientService;
-import jakarta.validation.Valid;
+import com.les.vest_fut.service.UserService;
+import com.les.vest_fut.utils.groups.OnBasicInfoValidation;
+import com.les.vest_fut.utils.groups.OnCreate;
+import com.les.vest_fut.utils.groups.OnPasswordValidation;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Controller
 @RequestMapping("/cliente")
 public class UserClientController {
 
     private final ClientService clientService;
+    private final UserService userService;
 
-    public UserClientController(ClientService clientService) {
+    public UserClientController(ClientService clientService, UserService userService) {
         this.clientService = clientService;
+        this.userService = userService;
     }
 
     @GetMapping("/perfil")
-    public ModelAndView profileClient() {
-        ModelAndView mv = new ModelAndView("public/pages/user/profile-client");
-        mv.addObject("client", getMockClient());
-        mv.addObject("genders", Gender.getAll());
-        return mv;
+    public ModelAndView profileClient(@AuthenticationPrincipal CustomUserDetails sessionUser, UserEntity client) {
+        UserEntity sessionUserEntity = userService.getUserById(sessionUser.getUserEntity().getId());
+        return UserClientControllerHelper.prepareProfileView(client.hasValidObject() ? client : sessionUserEntity);
     }
-
 
     @GetMapping("/novo")
     public ModelAndView newUserClient(UserEntity client) {
-        ModelAndView mv = new ModelAndView("public/pages/user/create-user-client");
-        mv.addObject("client", client);
-        mv.addObject("genders", Gender.getAll());
-        mv.addObject("cardFlags", CardFlag.getAll());
-        return mv;
+        return UserClientControllerHelper.prepareNewUserView(client);
     }
 
     @PostMapping("/novo")
-    public ModelAndView saveUserClient(@Valid @ModelAttribute("client") UserEntity client,
+    public ModelAndView saveUserClient(@Validated(OnCreate.class) @ModelAttribute("client") UserEntity client,
                                        BindingResult bindingResult,
                                        RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
-            return newUserClient(client);
+            return UserClientControllerHelper.prepareNewUserView(client);
         }
-        ModelAndView mv = new ModelAndView();
+
         try {
             clientService.saveClient(client);
-            mv.setViewName("redirect:/auth/login");
-            attributes.addFlashAttribute("mensagem", MessagesSuccess.CLIENT_REGISTERED.getMessage());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CLIENT_REGISTERED);
+            return UserClientControllerHelper.redirectLoginView();
         } catch (Exception e) {
-            attributes.addFlashAttribute("alert", e.getMessage());
-            mv.setViewName("redirect:/cliente/novo");
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectNewUserView();
         }
-        return mv;
     }
 
-    private UserEntity getMockClient() {
-        // TODO remover mock de teste
-        List<Address> addresses = new ArrayList<>();
-        addresses.add(new Address("12345-678", "Rua Exemplo", "123", "Apto 101", "Bairro Exemplo", "Cidade Exemplo", "SP"));
-        addresses.add(new Address("12345-678", "Rua Exemplo", "123", "Apto 101", "Bairro Exemplo", "Cidade Exemplo", "SP"));
-        addresses.add(new Address("12345-678", "Rua Exemplo", "123", "Apto 101", "Bairro Exemplo", "Cidade Exemplo", "SP"));
+    @PostMapping("/editBasicInfo")
+    public ModelAndView editBasicInfoUserClient(@Validated(OnBasicInfoValidation.class) @ModelAttribute("client") UserEntity client,
+                                                BindingResult bindingResult,
+                                                @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                                RedirectAttributes attributes) {
+        if (bindingResult.hasErrors()) {
+            UserEntity currentUser = userService.getUserById(sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.restoreClientData(client, currentUser);
+            return UserClientControllerHelper.prepareProfileView(client);
+        }
 
-        List<Card> cards = new ArrayList<>();
-        cards.add(new Card("1234567812345678", "João Exemplo", "12/25", "123"));
-
-        UserEntity client = new UserEntity();
-        client.setName("João Exemplo");
-        client.setCpf("123.456.789-00");
-        client.setGender(Gender.MALE);
-        client.setEmail("joao.exemplo@example.com");
-        client.setPhone("(11) 91234-5678");
-        client.setPassword("senhaSegura123");
-        client.setConfirmPassword("senhaSegura123");
-        client.setAddresses(addresses);
-        client.setCards(cards);
-
-        return client;
+        try {
+            clientService.editBasicInfoClient(client, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CLIENT_UPDATED);
+            return UserClientControllerHelper.redirectProfileView();
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectProfileView();
+        }
     }
 
+    @PostMapping("/editPassword")
+    public ModelAndView editPasswordUserClient(@RequestParam("currentPassword") String currentPassword,
+                                               @Validated(OnPasswordValidation.class) @ModelAttribute("client") UserEntity client,
+                                               BindingResult bindingResult,
+                                               @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                               RedirectAttributes attributes) {
+
+        if (bindingResult.hasErrors()) {
+            UserEntity currentUser = userService.getUserById(sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.restoreClientData(client, currentUser);
+            return UserClientControllerHelper.prepareProfileView(client);
+        }
+
+        try {
+            clientService.editPasswordClient(client, currentPassword, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.PASSWORD_UPDATED);
+            return UserClientControllerHelper.redirectProfileView();
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectProfileView();
+        }
+    }
+
+    @PostMapping("/removeCard")
+    public ModelAndView removeCard(@RequestParam("cardId") Long cardId,
+                                   @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                   RedirectAttributes attributes) {
+        try {
+            clientService.removeCard(cardId, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.CARD_REMOVED);
+            return UserClientControllerHelper.redirectProfileView();
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectProfileView();
+        }
+    }
+
+    @PostMapping("/removeAddress")
+    public ModelAndView removeAddress(@RequestParam("addressId") Long addressId,
+                                   @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                   RedirectAttributes attributes) {
+        try {
+            clientService.removeAddress(addressId, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.ADDRESS_REMOVED);
+            return UserClientControllerHelper.redirectProfileView();
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectProfileView();
+        }
+    }
+
+    @PostMapping("/saveCard")
+    public ModelAndView saveCard(@Validated @ModelAttribute("card") Card card,
+                                 BindingResult bindingResult,
+                                 @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                 RedirectAttributes attributes) {
+
+        if (bindingResult.hasErrors()) {
+            UserClientControllerHelper.addErrorMessage(attributes, "Erro ao salvar cartão");
+            return UserClientControllerHelper.redirectProfileView();
+        }
+
+        try {
+            clientService.saveCard(card, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, card.getId() == null ? MessagesSuccess.CARD_REGISTERED : MessagesSuccess.CARD_UPDATED);
+            return UserClientControllerHelper.redirectProfileView();
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectProfileView();
+        }
+    }
+
+    @PostMapping("/saveAddress")
+    public ModelAndView saveAddress(@Validated @ModelAttribute("address") Address address,
+                                 BindingResult bindingResult,
+                                 @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                 RedirectAttributes attributes) {
+
+        if (bindingResult.hasErrors()) {
+            UserClientControllerHelper.addErrorMessage(attributes, "Erro ao salvar endereço");
+            return UserClientControllerHelper.redirectProfileView();
+        }
+
+        try {
+            clientService.saveAddress(address, sessionUser.getUserEntity().getId());
+            UserClientControllerHelper.addSuccessMessage(attributes, address.getId() == null ? MessagesSuccess.ADDRESS_REGISTERED : MessagesSuccess.ADDRESS_UPDATED);
+            return UserClientControllerHelper.redirectProfileView();
+        } catch (Exception e) {
+            UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            return UserClientControllerHelper.redirectProfileView();
+        }
+    }
 
 
 }

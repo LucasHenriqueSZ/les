@@ -19,9 +19,35 @@
             <div class="row justify-content-md-center">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
                     <h2 class="mb-4 display-5 text-center text-dark">Perfil</h2>
-                    <p class="text-center text-dark lead fs-4 mb-1">Olá, [[${client.name}]]! Bem-vindo(a) à sua página de perfil.</p>
-                    <p class="text-secondary text-center lead fs-4 mb-5">Aqui você pode gerenciar suas informações pessoais, visualizar seus pedidos e ajustar suas preferências para melhorar sua experiência em nossa loja.</p>
+                    <p class="text-center text-dark lead fs-4 mb-1">Olá, [[${client.name}]] ! Bem-vindo(a) à sua página
+                        de perfil.</p>
+                    <p class="text-secondary text-center lead fs-4 mb-5">Aqui você pode gerenciar suas informações
+                        pessoais, visualizar seus pedidos e ajustar suas preferências para melhorar sua experiência em
+                        nossa loja.</p>
                     <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10" th:object="${client}">
+                    <div th:if="${not #lists.isEmpty(mensagem)}" class="alert alert-success alert-dismissible fade show"
+                         role="alert">
+                        <i class="ri-checkbox-circle-line"></i> <span th:text="${mensagem}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(alert)}" class="alert alert-danger alert-dismissible fade show"
+                         role="alert">
+                        <i class="ri-alert-line"></i> <span th:text="${alert}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div th:if="${#fields.hasErrors()}" class="alert alert-warning alert-dismissible fade show"
+                         role="alert">
+                        <i class="ri-error-warning-line"></i> As alterações não foram realizadas. Verifique os erros no
+                        para que os dados possam ser atualizados.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,35 +70,61 @@
                         <div class="card-body p-4">
                             <ul class="nav nav-tabs" id="profileTab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-tab-pane" type="button" role="tab" aria-controls="overview-tab-pane" aria-selected="true">Overview</button>
+                                    <button class="nav-link active" id="overview-tab" data-bs-toggle="tab"
+                                            data-bs-target="#overview-tab-pane"
+                                            type="button" role="tab" aria-controls="overview-tab-pane"
+                                            aria-selected="true">Overview
+                                    </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Perfil</button>
+                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                            data-bs-target="#profile-tab-pane"
+                                            type="button" role="tab" aria-controls="profile-tab-pane"
+                                            aria-selected="false">Perfil
+                                    </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address-tab-pane" type="button" role="tab" aria-controls="address-tab-pane" aria-selected="false">Endereços</button>
+                                    <button class="nav-link" id="address-tab" data-bs-toggle="tab"
+                                            data-bs-target="#address-tab-pane"
+                                            type="button" role="tab" aria-controls="address-tab-pane"
+                                            aria-selected="false">Endereços
+                                    </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="cards-tab" data-bs-toggle="tab" data-bs-target="#cards-tab-pane" type="button" role="tab" aria-controls="cards-tab-pane" aria-selected="false">Cartões</button>
+                                    <button class="nav-link" id="cards-tab" data-bs-toggle="tab"
+                                            data-bs-target="#cards-tab-pane"
+                                            type="button" role="tab" aria-controls="cards-tab-pane"
+                                            aria-selected="false">Cartões
+                                    </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">Senha</button>
+                                    <button class="nav-link"
+                                            id="password-tab" data-bs-toggle="tab"
+                                            data-bs-target="#password-tab-pane"
+                                            type="button" role="tab" aria-controls="password-tab-pane"
+                                            aria-selected="false">Senha
+                                    </button>
                                 </li>
                             </ul>
                             <div class="tab-content pt-4" id="profileTabContent">
-                                <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel" aria-labelledby="overview-tab" tabindex="0">
+                                <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel"
+                                     aria-labelledby="overview-tab" tabindex="0">
                                     <div th:replace="public/fragments/profile/client-overview-profile :: overview-profile"></div>
                                 </div>
-                                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel"
+                                     aria-labelledby="profile-tab" tabindex="0">
                                     <div th:replace="public/fragments/profile/client-edit-profile :: client-profile"></div>
                                 </div>
-                                <div class="tab-pane fade" id="address-tab-pane" role="tabpanel" aria-labelledby="address-tab" tabindex="0">
+                                <div class="tab-pane fade" id="address-tab-pane" role="tabpanel"
+                                     aria-labelledby="address-tab" tabindex="0">
                                     <div th:replace="public/fragments/profile/client-address-profile :: address-profile"></div>
                                 </div>
-                                <div class="tab-pane fade" id="cards-tab-pane" role="tabpanel" aria-labelledby="cards-tab" tabindex="0">
+                                <div class="tab-pane fade" id="cards-tab-pane" role="tabpanel"
+                                     aria-labelledby="cards-tab" tabindex="0">
                                     <div th:replace="public/fragments/profile/client-cards-profile :: cards-profile"></div>
                                 </div>
-                                <div class="tab-pane fade" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab" tabindex="0">
+                                <div class="tab-pane fade" id="password-tab-pane" role="tabpanel"
+                                     aria-labelledby="password-tab" tabindex="0">
                                     <div th:replace="public/fragments/profile/client-password-profile :: password-profile"></div>
                                 </div>
                             </div>
@@ -81,15 +133,14 @@
                 </div>
             </div>
         </div>
-
     </section>
-
 </main>
 
-<div th:replace="public/fragments/offcanvas/new-address-offcanvas"></div>
-<div th:replace="public/fragments/offcanvas/new-credit-card-offcanvas"></div>
 <div th:replace="public/fragments/footer :: footer"></div>
 <script th:src="@{/js/libs/jquery.mask.min.js}"></script>
 <script th:src="@{/js/masks.js}"></script>
+<script th:src="@{/js/viaCep.js}"></script>
+<script th:src="@{/js/address-form.js}"></script>
+<script th:src="@{/js/credit-card-form.js}"></script>
 </body>
 </html>

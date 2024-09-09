@@ -1,6 +1,17 @@
 $(document).ready(function () {
     $('#submitAddress').on('click', handleAddressSubmission);
 
+    $('button[id^="submitAddress_"]').on('click', function (event) {
+        event.preventDefault();
+        const uniqueId = $(this).attr('id').split('_')[1];
+        const form = $(`#addressForm_${uniqueId}`);
+        const formData = form.serializeArray();
+        const jsonData = serializeFormData(formData);
+        if (validateFormDataAddress(jsonData, uniqueId)) {
+            form.off('submit').submit();
+        }
+    });
+
     $('#addressesContainer').on('click', '.remove-address', function () {
         $(this).closest('.address-item').remove();
     });
@@ -74,6 +85,37 @@ function validateAndAddAddress(jsonData, form) {
         error: function (response) {
             handleValidationErrors(response);
         }
+    });
+}
+
+function validateFormDataAddress(jsonData, uniqueId) {
+    let isValid = true;
+    $.ajax({
+        url: '/address/validate',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(jsonData),
+        async: false,
+        success: function () {
+            clearErrors();
+            isValid = true;
+        },
+        error: function (response) {
+            handleValidationErrorsFormData(response, uniqueId);
+            isValid = false;
+        }
+    });
+
+    return isValid;
+}
+
+function handleValidationErrorsFormData(response, uniqueId) {
+    const errors = response.responseJSON;
+    $('.text-danger').hide();
+    $.each(errors, function (index, error) {
+        const field = error.field;
+        const message = error.defaultMessage;
+        $('#' + field + 'Error_' + uniqueId).text(message).show();
     });
 }
 

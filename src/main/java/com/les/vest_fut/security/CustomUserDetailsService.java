@@ -24,6 +24,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserEntity> user = userRepository.findByEmail(username);
         if (user.isPresent()) {
+            if (!user.get().isActive()) {
+                throw new UsernameNotFoundException("Usuário inativo");
+            }
             return new CustomUserDetails(
                     user.get(),
                     user.get().getRoles().stream().map((role) -> new SimpleGrantedAuthority(role.getName()))

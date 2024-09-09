@@ -1,13 +1,16 @@
 package com.les.vest_fut.security;
 
 import com.les.vest_fut.model.users.UserEntity;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+
 public class CustomUserDetails implements UserDetails {
 
+    @Getter
     private final UserEntity userEntity;
     private final Collection<? extends GrantedAuthority> authorities;
 
@@ -30,4 +33,5 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return userEntity.getEmail();
     }
+
 }
