@@ -6,60 +6,60 @@
 </head>
 <body>
 
-<div class="row" th:fragment="item-product-shopping-cart">
+<div class="row" th:fragment="item-product-shopping-cart(itemProduct)">
     <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-        <!-- Imagem -->
         <div class="bg-image hover-overlay hover-zoom ripple rounded">
             <img th:src="@{/img/examples/camisa_exemplo.jpg}"
-                 class="w-100" alt="nome produto"/>
+                 class="w-100" th:alt="${itemProduct.product.name}"/>
             <a href="#!">
                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
             </a>
         </div>
-        <!-- Imagem -->
     </div>
 
     <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-        <!-- Dados -->
-        <p><strong>Nome Produto</strong></p>
+        <p><strong th:text="${itemProduct.product.name}"></strong></p>
         <p>Cor: blue</p>
-        <p>Tamanho: M</p>
-        <button type="button"
-                class="btn btn-danger btn-sm me-1 mb-2"
-                title="Remove item">
-            <i class="ri-delete-bin-6-line"></i>
-        </button>
-        <!-- Data -->
+        <p th:text="'Tamanho: ' + ${itemProduct.product.size}"></p>
+        <form th:action="@{/carrinho-compras/remover-item}" method="post">
+            <input type="hidden" th:value="${itemProduct.id}" name="itemCartId"/>
+            <button type="submit"
+                    class="btn btn-danger btn-sm me-1 mb-2"
+                    title="Remove item">
+                <i class="ri-delete-bin-6-line"></i>
+            </button>
+        </form>
     </div>
 
     <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-        <!-- Quantidade -->
         <div class="d-flex mb-4" style="max-width: 300px">
-            <button
-                    class="btn btn-secondary px-3 ms-0 mx-1 h-50"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                <i class="ri-subtract-line"></i>
-            </button>
+            <form th:action="@{/carrinho-compras/diminuir-quantidade-item}" method="post">
+                <input type="hidden" th:value="${itemProduct.id}" name="itemCartId"/>
+                <button type="submit"
+                        class="btn btn-secondary px-3 ms-0 mx-1 h-50">
+                    <i class="ri-subtract-line"></i>
+                </button>
+            </form>
+
 
             <div class="form-outline">
-                <input id="form1" min="0" name="quantity" value="1" type="number"
+                <input id="form1" min="0" name="quantity" th:value="${itemProduct.quantity}" type="number"
                        class="form-control"/>
                 <label class="form-label" for="form1">Quantidade</label>
             </div>
 
-            <button
-                    class="btn btn-secondary px-3 mx-1  h-50"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                <i class="ri-add-large-fill"></i>
-            </button>
-        </div>
-        <!-- Quantidade -->
+            <form th:action="@{/carrinho-compras/aumentar-quantidade-item}" method="post">
+                <input type="hidden" th:value="${itemProduct.id}" name="itemCartId"/>
+                <button type="submit"
+                        class="btn btn-secondary px-3 mx-1  h-50">
+                    <i class="ri-add-large-fill"></i>
+                </button>
+            </form>
 
-        <!-- Preço -->
+        </div>
         <p class="text-start text-md-center">
-            <strong>R$99,99</strong>
+            <strong th:text="${itemProduct.totalPrice}"></strong>
         </p>
-        <!-- Preço -->
     </div>
 </div>
 
