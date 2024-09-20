@@ -4,5 +4,6 @@ CREATE TABLE products
     pdt_description VARCHAR(255),
     pdt_name        VARCHAR(255)   NOT NULL,
     pdt_price       NUMERIC(38, 2) NOT NULL,
-    pdt_size        VARCHAR(255)
+    pdt_size        VARCHAR(255),
+    pdt_stock       INTEGER NOT NULL DEFAULT 0
 );
