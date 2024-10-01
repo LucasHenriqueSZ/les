@@ -6,20 +6,29 @@
 </head>
 <body>
 
-<div th:fragment="product-card" class="container mt-5">
+<div th:fragment="product-card(product)" class="container mt-5">
     <div class="row">
-        <div class="col-md-4">
+        <div>
             <div class="card card-custom">
                 <img th:src="@{/img/examples/camisa_exemplo.jpg}" class="card-img-top card-img-custom p-2"
                      alt="Imagem do Produto">
                 <div class="card-body">
-                    <h5 class="card-title">Nome do Produto</h5>
-                    <p class="card-text text-discount text-decoration-line-through mb-0 p-1 bg-dark-subtle text-dark-emphasis">
-                        R$ 150,00</p>
-                    <p class="card-text fw-semibold">R$ 99,99</p>
+                    <h5 class="card-title" th:text="${product.name} + '-' + ${product.size}"></h5>
+                    <p class="card-text text-discount text-decoration-line-through mb-0 p-1 bg-dark-subtle text-dark-emphasis"
+                       th:text="${product.getFormattedPrice()}"></p>
+                    <p class="card-text fw-semibold" th:text="${product.getFormattedPrice()}"></p>
                     <div class="d-flex justify-content-between">
                         <a href="#" class="btn btn-primary">Comprar</a>
-                        <a href="#" class="btn btn-secondary">Adicionar<i class="ri-shopping-cart-2-line"></i></a>
+
+
+                        <form th:action="@{/carrinho-compras/add}" method="post">
+                            <input type="hidden" th:value="${product.id}" name="productId"/>
+                            <input type="hidden" name="quantity" th:value="1"/>
+                            <button type="submit" class="btn btn-secondary">
+                                Adicionar <i class="ri-shopping-cart-2-line"></i>
+                            </button>
+                        </form>
+
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div th:replace="public/fragments/offcanvas/edit-address-offcanvas :: edit-address-offcanvas(address=null, uniqueId='New' )"></div>
+    <div th:replace="public/fragments/offcanvas/edit-address-offcanvas :: edit-address-offcanvas(address=null, uniqueId='New',return='profile' )"></div>
 
     <div th:each="address, iterStat : ${client.addresses}">
         <div class="card mb-3">
@@ -42,7 +42,7 @@
                     <p class="mb-1"><strong>Estado:</strong> <span th:text="${address.state}"></span></p>
                 </div>
                 <div class="btn-group" role="group">
-                    <div th:replace="public/fragments/offcanvas/edit-address-offcanvas :: edit-address-offcanvas(address=${address}, uniqueId=${iterStat.index})"></div>
+                    <div th:replace="public/fragments/offcanvas/edit-address-offcanvas :: edit-address-offcanvas(address=${address}, uniqueId=${iterStat.index},return='profile')"></div>
 
                     <button type="button" class="btn btn-primary btn-sm"
                             data-bs-toggle="offcanvas"

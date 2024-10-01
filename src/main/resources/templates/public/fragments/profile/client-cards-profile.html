@@ -12,11 +12,10 @@
                     data-bs-target="#offcanvasCreditCard_New" aria-controls="offcanvasCreditCard_New">
                 <i class="ri-add-line me-2"></i>Adicionar Novo Cartão
             </button>
-<!--                    th:onclick="clearForm()">-->
         </div>
     </div>
 
-    <div th:replace="public/fragments/offcanvas/edit-credit-card-offcanvas :: edit-credit-card-offcanvas(card=null, uniqueId='New')"></div>
+    <div th:replace="public/fragments/offcanvas/edit-credit-card-offcanvas :: edit-credit-card-offcanvas(card=null, uniqueId='New',return='profile')"></div>
 
     <div th:each="card, iterStat : ${client.cards}">
         <div class="card mb-3">
@@ -29,7 +28,7 @@
                     <p class="mb-1"><strong>Bandeira:</strong> <span th:text="${card.flagName}"></span></p>
                 </div>
                 <div class="btn-group" role="group">
-                    <div th:replace="public/fragments/offcanvas/edit-credit-card-offcanvas :: edit-credit-card-offcanvas(card=${card}, uniqueId=${iterStat.index})"></div>
+                    <div th:replace="public/fragments/offcanvas/edit-credit-card-offcanvas :: edit-credit-card-offcanvas(card=${card}, uniqueId=${iterStat.index},return='profile')"></div>
 
                     <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="offcanvas"
                             th:data-bs-target="'#offcanvasCreditCard_' + ${iterStat.index}" th:aria-controls="'offcanvasCreditCard_' + ${iterStat.index}">

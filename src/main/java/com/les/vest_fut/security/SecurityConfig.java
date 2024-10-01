@@ -36,7 +36,7 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/css/**", "/js/**","/img/**",
                                         "/auth/login", "cliente/novo", "/home",
-                                        "/address/validate", "card/validate"
+                                        "/address/validate", "card/validate","produtos"
                                 ).permitAll()
                                 .requestMatchers("/admin/**")
                                 .hasRole("ADMIN")

@@ -14,23 +14,31 @@
 <main class="container my-3">
     <h1 class="mb-4">Checkout</h1>
 
+    <div th:replace="utils/AlertMessages :: alerts"></div>
 
     <div class="card mb-4">
         <div class="card-body">
             <h4 class="mb-3"><strong>Produtos</strong></h4>
             <div class="card-body">
-                <div th:replace="public/fragments/checkout/item-product-checkout :: item-product-checkout"></div>
-                <hr class="my-4"/>
-                <div th:replace="public/fragments/checkout/item-product-checkout :: item-product-checkout"></div>
+                <div th:each="item : ${cart.items}">
+                    <div th:replace="public/fragments/checkout/item-product-checkout :: item-product-checkout(${item})"></div>
+                    <hr class="my-4"/>
+                </div>
             </div>
         </div>
     </div>
-
-    <div th:replace="public/fragments/checkout/address-checkout :: address-shopping-cart"></div>
-
-    <div th:replace="public/fragments/checkout/payment-checkout :: payment-checkout"></div>
-
+    <form th:action="@{/pedidos}" method="post" th:object="${orderFormDto}">
+        <div th:replace="public/fragments/checkout/address-checkout :: address-shopping-cart"></div>
+        <div th:replace="public/fragments/checkout/payment-checkout :: payment-checkout"></div>
+    </form>
 </main>
 <div th:replace="public/fragments/footer :: footer"></div>
+<div th:replace="public/fragments/offcanvas/edit-address-offcanvas :: edit-address-offcanvas(address=null, uniqueId='New', return='checkout')"></div>
+<div th:replace="public/fragments/offcanvas/edit-credit-card-offcanvas :: edit-credit-card-offcanvas(card=null, uniqueId='New',return='checkout')"></div>
+
+<script th:src="@{/js/viaCep.js}"></script>
+<script th:src="@{/js/libs/jquery.mask.min.js}"></script>
+<script th:src="@{/js/masks.js}"></script>
+<script th:src="@{/js/mocks/mock-checkout-freight.js}"></script>
 </body>
 </html>

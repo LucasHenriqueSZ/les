@@ -5,7 +5,7 @@
     <title></title>
 </head>
 <body>
-<div th:fragment="edit-address-offcanvas(address, uniqueId)">
+<div th:fragment="edit-address-offcanvas(address, uniqueId, return)">
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1"
          th:id="'offcanvasAddress_' + ${uniqueId}" aria-labelledby="offcanvasAddressLabel">
         <div class="offcanvas-header">
@@ -14,7 +14,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <form th:id="'addressForm_' + ${uniqueId}" th:action="@{/cliente/saveAddress}" method="post">
+            <form th:id="'addressForm_' + ${uniqueId}" th:action="@{/cliente/saveAddress(returnTo=${return})}" method="post">
                 <input type="hidden" th:id="'addressId_' +  ${uniqueId}" name="id" th:value="${address != null} ? ${address.id} : ''">
                 <div class="mb-3">
                     <label th:for="'zipCode_' + ${uniqueId}" class="form-label">CEP<span

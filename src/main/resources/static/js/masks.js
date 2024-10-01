@@ -5,6 +5,7 @@ $(document).ready(function () {
 
     // Máscara para CPF
     $('#cpf').mask('000.000.000-00');
+    $('input[name="cpf"]').mask('000.000.000-00');
 
     // Máscara para Telefone
     $(document).ready(function() {
@@ -26,7 +27,9 @@ $(document).ready(function () {
 
     // Máscara para Data de Validade
     $('#expiryDate').mask('00/00');
+    $('input[name="expiryDate"]').mask('00/00');
 
     // Máscara para Código CVV
-    $('#cvv').mask('0000');
+    $('#cvv').mask('000');
+    $('input[name="cvv"]').mask('000');
 });

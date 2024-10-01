@@ -46,4 +46,7 @@ public class UserClientControllerHelper  extends CommonControllerHelper{
         client.setGender(currentUser.getGender());
     }
 
+    public static ModelAndView redirectChekoutView() {
+        return new ModelAndView("redirect:/checkout");
+    }
 }

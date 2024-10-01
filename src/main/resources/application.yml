@@ -9,13 +9,13 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   messages:
     encoding: UTF-8
 
 server:
   port: 80
-  error:
-    whitelabel:
-      enabled: false
-    path: /error
+#  error:
+#    whitelabel:
+#      enabled: false
+#    path: /error
