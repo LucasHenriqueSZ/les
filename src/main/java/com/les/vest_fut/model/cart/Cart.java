@@ -10,9 +10,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -46,5 +48,11 @@ public class Cart {
         return items.stream()
                 .map(item -> item.getTotalPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public String getFormattedTotalPrice() {
+        Locale brazilianLocale = Locale.forLanguageTag("pt-BR");
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(brazilianLocale);
+        return currencyFormat.format(this.calculateTotal());
     }
 }

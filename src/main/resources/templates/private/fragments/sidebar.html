@@ -40,14 +40,11 @@
             <li class="mb-1">
                 <button class="btn btn-toggle link-light align-items-center rounded collapsed" data-bs-toggle="collapse"
                         data-bs-target="#orders-collapse" aria-expanded="false">
-                    Orders
+                    Pedidos
                 </button>
                 <div class="collapse" id="orders-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="link-light rounded">New</a></li>
-                        <li><a href="#" class="link-light rounded">Processed</a></li>
-                        <li><a href="#" class="link-light rounded">Shipped</a></li>
-                        <li><a href="#" class="link-light rounded">Returned</a></li>
+                        <li><a th:href="@{/admin/pedidos}" class="link-light rounded">Listagem</a></li>
                     </ul>
                 </div>
             </li>

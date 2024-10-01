@@ -6,27 +6,26 @@
 </head>
 <body>
 
-<div class="row" th:fragment="item-product-checkout">
+<div class="row" th:fragment="item-product-checkout(itemProduct)">
     <div class="col-lg-2 col-md-12 mb-4 mb-lg-0">
-        <!-- Imagem -->
         <div class="bg-image hover-overlay hover-zoom ripple rounded" style="max-width: 100px; max-height: 100px;">
             <img th:src="@{/img/examples/camisa_exemplo.jpg}"
-                 class="w-100" alt="nome produto"/>
+                 class="w-100" th:alt="${itemProduct.product.name}"/>
             <a href="#!">
                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
             </a>
         </div>
-        <!-- Imagem -->
     </div>
 
     <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-        <p><strong>Nome Produto</strong></p>
-        <p>Tamanho: M</p>
+        <p><strong th:text="${itemProduct.product.name}"></strong></p>
+        <p th:text="'Tamanho: ' + ${itemProduct.product.size}"></p>
+        <p th:text="'Quantidade: ' + ${itemProduct.quantity}"></p>
     </div>
 
     <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
         <p class="text-start text-md-center">
-            <strong>R$99,99</strong>
+            <strong th:text="${itemProduct.product.getFormattedPrice()}"></strong>
         </p>
     </div>
 </div>

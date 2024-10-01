@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listagem de Pedidos</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="private/fragments/sidebar :: sidebar"></div>
+<main class="main-adm">
+    <div class="container mt-5">
+        <h2 class="mb-4">Listagem de Pedidos</h2>
+
+        <div th:replace="utils/AlertMessages :: alerts"></div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th style="width: 10%;" class="text-center">ID</th>
+                    <th style="width: 25%;" class="text-center">Usuário</th>
+                    <th style="width: 20%;" class="text-center">Status</th>
+                    <th style="width: 15%;" class="text-center">Total</th>
+                    <th style="width: 30%;" class="text-center">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.id}" class="text-center" aria-label="ID do Pedido"></td>
+                    <td th:text="${order.user.name}" class="text-center" aria-label="Nome do Usuário"></td>
+                    <td class="text-center">
+                        <span class="badge fs-6 bg-primary" th:text="${order.status.name}"
+                              aria-label="Status do Pedido"></span>
+                    </td>
+                    <td th:text="${order.getFormattedPrice}" class="text-center" aria-label="Total"></td>
+                    <td class="text-center">
+                        <form th:action="@{/admin/pedidos/alter-status}" method="post"
+                              class="d-inline-flex align-items-center justify-content-center gap-2">
+                            <input type="hidden" name="id" th:value="${order.id}"/>
+                            <div class="d-flex justify-content-between gap-2 w-100">
+                                <select name="status" class="form-select form-select-sm" style="width: 60%;" required
+                                        aria-label="Alterar Status">
+                                    <th:block th:each="status : ${ordersStatus}">
+                                        <option th:value="${status}" th:text="${status.name}"
+                                                th:selected="${status == order.status}"></option>
+                                    </th:block>
+                                </select>
+                                <button class="btn btn-primary btn-sm" type="submit" style="width: 35%;"
+                                        aria-label="Atualizar Status">
+                                    <i class="ri-refresh-line"></i> Atualizar
+                                </button>
+                            </div>
+                        </form>
+                        <a th:href="@{/admin/pedidos/{id}(id=${order.id})}" class="btn btn-info btn-sm mt-2"
+                           role="button" aria-label="Ver Detalhes do Pedido">
+                            <i class="ri-eye-line"></i> Detalhes
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

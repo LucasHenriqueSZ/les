@@ -1,5 +1,6 @@
 package com.les.vest_fut.model.payment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.les.vest_fut.model.users.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
@@ -45,6 +46,7 @@ public class Cupon {
     @Column(name = "cup_amount", precision = 10, scale = 2)
     private BigDecimal amount;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "usr_id", nullable = false)
     private UserEntity user;

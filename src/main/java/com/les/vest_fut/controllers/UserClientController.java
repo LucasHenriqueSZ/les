@@ -120,8 +120,8 @@ public class UserClientController {
 
     @PostMapping("/removeAddress")
     public ModelAndView removeAddress(@RequestParam("addressId") Long addressId,
-                                   @AuthenticationPrincipal CustomUserDetails sessionUser,
-                                   RedirectAttributes attributes) {
+                                      @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                      RedirectAttributes attributes) {
         try {
             clientService.removeAddress(addressId, sessionUser.getUserEntity().getId());
             UserClientControllerHelper.addSuccessMessage(attributes, MessagesSuccess.ADDRESS_REMOVED);
@@ -136,43 +136,63 @@ public class UserClientController {
     public ModelAndView saveCard(@Validated @ModelAttribute("card") Card card,
                                  BindingResult bindingResult,
                                  @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                 @RequestParam(name = "returnTo", defaultValue = "profile") String returnTo,
                                  RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             UserClientControllerHelper.addErrorMessage(attributes, "Erro ao salvar cartão");
+            if ("checkout".equals(returnTo)) {
+                return UserClientControllerHelper.redirectChekoutView();
+            }
             return UserClientControllerHelper.redirectProfileView();
         }
 
         try {
             clientService.saveCard(card, sessionUser.getUserEntity().getId());
             UserClientControllerHelper.addSuccessMessage(attributes, card.getId() == null ? MessagesSuccess.CARD_REGISTERED : MessagesSuccess.CARD_UPDATED);
+            if ("checkout".equals(returnTo)) {
+                return UserClientControllerHelper.redirectChekoutView();
+            }
             return UserClientControllerHelper.redirectProfileView();
         } catch (Exception e) {
             UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+            if ("checkout".equals(returnTo)) {
+                return UserClientControllerHelper.redirectChekoutView();
+            }
             return UserClientControllerHelper.redirectProfileView();
         }
     }
 
     @PostMapping("/saveAddress")
     public ModelAndView saveAddress(@Validated @ModelAttribute("address") Address address,
-                                 BindingResult bindingResult,
-                                 @AuthenticationPrincipal CustomUserDetails sessionUser,
-                                 RedirectAttributes attributes) {
+                                    BindingResult bindingResult,
+                                    @AuthenticationPrincipal CustomUserDetails sessionUser,
+                                    @RequestParam(name = "returnTo", defaultValue = "profile") String returnTo,
+                                    RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             UserClientControllerHelper.addErrorMessage(attributes, "Erro ao salvar endereço");
+            if ("checkout".equals(returnTo)) {
+                return UserClientControllerHelper.redirectChekoutView();
+            }
             return UserClientControllerHelper.redirectProfileView();
         }
 
         try {
             clientService.saveAddress(address, sessionUser.getUserEntity().getId());
             UserClientControllerHelper.addSuccessMessage(attributes, address.getId() == null ? MessagesSuccess.ADDRESS_REGISTERED : MessagesSuccess.ADDRESS_UPDATED);
+
+            if ("checkout".equals(returnTo)) {
+                return UserClientControllerHelper.redirectChekoutView();
+            }
             return UserClientControllerHelper.redirectProfileView();
         } catch (Exception e) {
             UserClientControllerHelper.addErrorMessage(attributes, e.getMessage());
+
+            if ("checkout".equals(returnTo)) {
+                return UserClientControllerHelper.redirectChekoutView();
+            }
             return UserClientControllerHelper.redirectProfileView();
         }
     }
-
-
 }

@@ -138,6 +138,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cart.getItems().add(newItem);
     }
 
+    public void clearCartWithoutRestocking() {
+        UserEntity user = securityUtil.getUserSession();
+
+        Cart cart = cartRepository.findByUser(user).orElseThrow(
+                () -> new IllegalStateException("Carrinho não encontrado para o usuário logado")
+        );
+        cart.getItems().clear();
+        cartRepository.save(cart);
+    }
+
 //    TODO:Mover para a criação de usuario
 //    private Cart createNewCart(UserEntity user) {
 //        Cart cart = new Cart();

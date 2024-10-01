@@ -1,6 +1,8 @@
 package com.les.vest_fut.model.payment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.les.vest_fut.model.order.Order;
+import com.les.vest_fut.model.users.Card;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +34,16 @@ public class Payment {
     @Column(name = "pym_details")
     private String details;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ord_id", nullable = false)
     private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_id")
+    private Card card;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cupon_id")
+    private Cupon cupon;
 }

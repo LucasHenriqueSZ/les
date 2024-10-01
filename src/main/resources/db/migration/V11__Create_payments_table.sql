@@ -6,9 +6,13 @@ CREATE TABLE payments
     pym_method  VARCHAR(255)   NOT NULL
         CONSTRAINT payments_method_check
             CHECK ((pym_method)::text = ANY
-        ((ARRAY ['CARTAO':: character varying, 'CUPOM':: character varying])::text[])
-) ,
-    ord_id      BIGINT NOT NULL
+                   ((ARRAY ['CARTAO':: character varying, 'CUPOM':: character varying])::text[])
+                ),
+    ord_id      BIGINT         NOT NULL
         CONSTRAINT payments_order_fk
-            REFERENCES orders
+            REFERENCES orders,
+
+    card_id     BIGINT
+        CONSTRAINT payments_card_fk
+            REFERENCES cards
 );

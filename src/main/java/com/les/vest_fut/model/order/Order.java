@@ -1,7 +1,6 @@
 package com.les.vest_fut.model.order;
 
 import com.les.vest_fut.model.payment.Payment;
-import com.les.vest_fut.model.users.Address;
 import com.les.vest_fut.model.users.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,9 +9,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -37,9 +38,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payment> payments = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", nullable = false)
-    private Address deliveryAddress;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private OrderSend orderSend;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ord_status", nullable = false)
@@ -53,4 +53,10 @@ public class Order {
 
     @Column(name = "ord_total_amount", nullable = false)
     private BigDecimal totalAmount;
+
+    public String getFormattedPrice() {
+        Locale brazilianLocale = Locale.forLanguageTag("pt-BR");
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(brazilianLocale);
+        return currencyFormat.format(this.totalAmount);
+    }
 }

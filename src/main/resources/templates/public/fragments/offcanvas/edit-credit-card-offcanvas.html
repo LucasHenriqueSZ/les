@@ -5,7 +5,7 @@
     <title>Editar/Adicionar Cartão</title>
 </head>
 <body>
-<div th:fragment="edit-credit-card-offcanvas(card, uniqueId)">
+<div th:fragment="edit-credit-card-offcanvas(card, uniqueId, return)">
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1"
          th:id="'offcanvasCreditCard_' + ${uniqueId}" aria-labelledby="offcanvasCreditCardLabel">
         <div class="offcanvas-header">
@@ -14,7 +14,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <form th:id="'creditCardForm_' +  ${uniqueId}" th:action="@{/cliente/saveCard}" method="post">
+            <form th:id="'creditCardForm_' +  ${uniqueId}"  th:action="@{/cliente/saveCard(returnTo=${return})}"  method="post">
                 <input type="hidden" th:id="'cardId_' +  ${uniqueId}" name="id" th:value="${card != null} ? ${card.id} : ''">
                 <div class="mb-3">
                     <label th:for="'cardNumber_' +  ${uniqueId}" class="form-label">Número do Cartão<span
@@ -59,6 +59,7 @@
             </form>
         </div>
     </div>
+    <script th:src="@{/js/credit-card-form.js}"></script>
 </div>
 </body>
 </html>

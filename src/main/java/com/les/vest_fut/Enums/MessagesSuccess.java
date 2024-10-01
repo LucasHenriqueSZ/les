@@ -16,7 +16,8 @@ public enum MessagesSuccess {
     ADDRESS_REMOVED("Endereço removido com sucesso!"),
     CLIENT_STATUS_ALTERED("Status do cliente alterado com sucesso!"),
     CART_ADD_PRODUCT("Produto Adicionado ao carrinho com sucesso!"),
-    CART_REMOVE_ITEM("Item removido do carrinho com sucesso!");
+    CART_REMOVE_ITEM("Item removido do carrinho com sucesso!"),
+    ORDER_STATUS_SUCCESS("Status do pedido Alterado com sucesso!");
 
     private final String message;
 

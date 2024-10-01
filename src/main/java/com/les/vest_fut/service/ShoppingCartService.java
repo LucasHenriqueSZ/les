@@ -12,4 +12,6 @@ public interface ShoppingCartService {
     void increaseQuantityItem(Long itemCartId);
 
     void decreaseQuantityItem(Long itemCartId);
+
+    void clearCartWithoutRestocking();
 }
