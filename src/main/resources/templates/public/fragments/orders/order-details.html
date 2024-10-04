@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div th:fragment="order-details">
+<div th:fragment="order-details(order)">
     <section style="background-color: #eee;">
 
         <div>
@@ -17,11 +17,10 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex flex-column">
                                     <span class="lead fw-normal">Status do pedido: <span class="badge bg-primary">Entregue</span></span>
-                                    <span class="text-muted small">Pedido #123456</span>
+                                    <span class="text-muted small">Pedido #<span th:text="${order.id}"></span></span>
                                 </div>
                                 <div>
-
-                                    <div th:replace="public/fragments/orders/modal-order-details :: modal-order-details"></div>
+                                    <div th:replace="public/fragments/orders/modal-order-details :: modal-order-details(order=${order})"></div>
                                 </div>
                             </div>
                             <hr class="my-4">
