@@ -11,5 +11,7 @@ public interface OrderService {
 
     List<Order> findAll();
 
+    List<Order> findAllByUser();
+
     void updateOrderStatus(Long id, OrderStatus status);
 }
