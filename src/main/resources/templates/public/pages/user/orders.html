@@ -15,8 +15,10 @@
 
 <main class="container mt-4 mb-5">
     <h1 class="mb-4">Meus pedidos</h1>
-    <section th:each="order : ${orders}" class="d-flex flex-column gap-4">
-        <div th:replace="public/fragments/orders/order-details :: order-details(order=${order})"></div>
+    <section class="d-flex flex-column gap-4">
+        <div th:each="order : ${orders}">
+            <div th:replace="public/fragments/orders/order-details :: order-details(order=${order})"></div>
+        </div>
     </section>
 
 </main>

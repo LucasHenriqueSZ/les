@@ -7,11 +7,12 @@
 <body>
 <div th:fragment="modal-order-details(order)">
 
-    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalOrderDetails"
+    <button class="btn btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalOrderDetails'+${order.id}"
             type="button">Detalhes do pedido
     </button>
 
-    <div class="modal fade" id="modalOrderDetails" tabindex="-1" aria-labelledby="modalOrderDetailsLabel"
+    <div class="modal fade" th:id="'modalOrderDetails' + ${order.id}" tabindex="-1"
+         aria-labelledby="modalOrderDetailsLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -21,7 +22,7 @@
                 <div class="modal-body text-start">
                     <h5 class="modal-title text-uppercase mb-4" id="modalOrderDetailsLabel">Detalhes do
                         Pedido</h5>
-                    
+
                     <p><strong>Número do Pedido:</strong> #<span th:text="${order.id}"></span></p>
                     <p><strong>Data do Pedido:</strong> <span th:text="${order.getFormattedCreatedAt()}"></span></p>
                     <p><strong>Status do Pedido:</strong><span th:text="${order.status.name}"></span></p>
