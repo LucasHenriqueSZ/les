@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -53,4 +55,10 @@ public class Cupon {
 
     @Column(name = "cup_used", nullable = false)
     private boolean used;
+
+    public String getFormattedAmount() {
+        Locale brazilianLocale = Locale.forLanguageTag("pt-BR");
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(brazilianLocale);
+        return currencyFormat.format(amount);
+    }
 }

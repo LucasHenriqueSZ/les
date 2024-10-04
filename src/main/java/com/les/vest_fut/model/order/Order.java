@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -58,5 +59,21 @@ public class Order {
         Locale brazilianLocale = Locale.forLanguageTag("pt-BR");
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(brazilianLocale);
         return currencyFormat.format(this.totalAmount);
+    }
+
+    public String getFormattedTotalPriceItems() {
+        Locale brazilianLocale = Locale.forLanguageTag("pt-BR");
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(brazilianLocale);
+        return currencyFormat.format(this.getTotalPriceItems());
+    }
+
+    public BigDecimal getTotalPriceItems(){
+        return items.stream().map(OrderItem::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public String getFormattedCreatedAt() {
+        Locale brazilianLocale = Locale.forLanguageTag("pt-BR");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", brazilianLocale);
+        return this.createdAt.format(formatter);
     }
 }

@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +30,7 @@ public class OrderSend {
     @JoinColumn(name = "ors_ord_id", nullable = false)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ors_adr_id", nullable = false)
     private Address address;
 
@@ -45,4 +48,38 @@ public class OrderSend {
 
     @Column(name = "ors_frete_price", nullable = false)
     private BigDecimal fretePrice;
+
+    public String getFormattedPrice() {
+        Locale brazilianLocale = Locale.forLanguageTag("pt-BR");
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(brazilianLocale);
+        return currencyFormat.format(fretePrice);
+    }
+
+    public String getFormattedInitDatePrediction() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.forLanguageTag("pt-BR"));
+        return this.initDatePrediction.format(formatter);
+    }
+
+    public String getFormattedInitDateReal() {
+        if (this.initDateReal != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.forLanguageTag("pt-BR"));
+            return this.initDateReal.format(formatter);
+        } else {
+            return "A ser enviado";
+        }
+    }
+
+    public String getFormattedEndDatePrediction() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.forLanguageTag("pt-BR"));
+        return this.endDatePrediction.format(formatter);
+    }
+
+    public String getFormattedEndDateReal() {
+        if (this.endDateReal != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.forLanguageTag("pt-BR"));
+            return this.endDateReal.format(formatter);
+        } else {
+            return "Não entregue";
+        }
+    }
 }

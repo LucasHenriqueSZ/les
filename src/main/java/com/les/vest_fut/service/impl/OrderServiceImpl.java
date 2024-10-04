@@ -65,6 +65,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> findAllByUser() {
+        return orderRepository.findAllByUser(securityUtil.getUserSession());
+    }
+
+    @Override
     public void updateOrderStatus(Long id, OrderStatus status) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(MessagesExceptions.ORDER_NOT_FOUND.getMessage()));
         order.setStatus(status);
