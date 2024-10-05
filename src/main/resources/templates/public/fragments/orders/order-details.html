@@ -24,42 +24,35 @@
                                 </div>
                             </div>
                             <hr class="my-4">
-                            <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
-                                <span class="dot"></span>
-                                <hr class="flex-fill track-line">
-                                <span class="dot"></span>
-                                <hr class="flex-fill track-line">
-                                <span class="dot"></span>
-                                <hr class="flex-fill track-line">
-                                <span class="dot"></span>
-                                <hr class="flex-fill track-line">
-                                <span
-                                        class="d-flex justify-content-center align-items-center big-dot dot"></span>
-                            </div>
-
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="d-flex flex-column align-items-start">
-                                    <span>12/07/2024</span>
-                                    <span>Pedido feito</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <span>15/07/2024</span>
-                                    <span>Pedido aceito</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <span>20/07/2024</span>
-                                    <span>Pedido enviado</span>
-                                </div>
-                                <div class="d-flex flex-column align-items-center">
-                                    <span>25/07/2024</span>
-                                    <span>Em trânsito</span>
-                                </div>
-                                <div class="d-flex flex-column align-items-end">
-                                    <span>30/07/2024</span>
-                                    <span>Entregue</span>
+                            <div th:each="item : ${order.items}">
+                                <div class="d-flex justify-content-between">
+                                    <p class="fw-bold mb-0"
+                                       th:text="${item.product.name + ' (Qtd: ' + item.quantity + ')'}"></p>
+                                    <p class="text-muted mb-0" th:text="${item.getFormattedTotalPrice()}"></p>
                                 </div>
                             </div>
-
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="fw-bold mb-0">Data Prevista de Envio</p>
+                                        <p class="text-muted mb-0" th:text="${order.orderSend.getFormattedInitDatePrediction()}"></p>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <p class="fw-bold mb-0">Data Real de Envio</p>
+                                        <p class="text-muted mb-0" th:text="${order.orderSend.getFormattedInitDateReal()}"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="fw-bold mb-0">Data Prevista de Entrega</p>
+                                        <p class="text-muted mb-0" th:text="${order.orderSend.getFormattedEndDatePrediction()}"></p>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <p class="fw-bold mb-0">Data Real de Entrega</p>
+                                        <p class="text-muted mb-0" th:text="${order.orderSend.getFormattedEndDateReal()}"></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
