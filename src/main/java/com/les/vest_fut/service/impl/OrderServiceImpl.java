@@ -71,9 +71,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderStatus(Long id, OrderStatus status) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(MessagesExceptions.ORDER_NOT_FOUND.getMessage()));
+        UserEntity user = securityUtil.getUserSession();
+        Order order = orderRepository.findByIdAndUser(id, user).orElseThrow(() -> new IllegalArgumentException(MessagesExceptions.ORDER_NOT_FOUND.getMessage()));
         order.setStatus(status);
         orderRepository.save(order);
+    }
+
+    @Override
+    public Order findById(Long orderId) {
+        UserEntity user = securityUtil.getUserSession();
+        return orderRepository.findByIdAndUser(orderId, user).orElseThrow(() -> new IllegalArgumentException(MessagesExceptions.ORDER_NOT_FOUND.getMessage()));
     }
 
     private Cart getCartByUser(UserEntity user) {

@@ -76,4 +76,8 @@ public class Order {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", brazilianLocale);
         return this.createdAt.format(formatter);
     }
+
+    public boolean isDelivered() {
+        return this.status == OrderStatus.ENTREGUE;
+    }
 }
