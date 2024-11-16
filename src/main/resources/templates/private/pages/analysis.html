@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>T-SHIRT GEN</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+          rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="private/fragments/sidebar :: sidebar"></div>
+
+<main class="main-adm">
+
+    <div class="container my-5">
+        <h1 class="text-center">Análise de Vendas por Período</h1>
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-auto">
+                <label for="startDate">Data de Início:</label>
+                <input type="date" class="form-control" id="startDate">
+            </div>
+            <div class="col-auto">
+                <label for="endDate">Data de Fim:</label>
+                <input type="date" class="form-control" id="endDate">
+            </div>
+            <div class="col-auto align-self-end">
+                <button class="btn btn-primary" onclick="filterData()">Atualizar</button>
+                <button class="btn btn-secondary" onclick="resetFilter()">Limpar Filtro</button>
+            </div>
+        </div>
+
+        <p id="error-message" class="text-danger font-weight-bold text-center"></p>
+
+        <canvas id="salesChart" width="800" height="400"></canvas>
+    </div>
+
+    <script>
+        const ctx = $('#salesChart')[0].getContext('2d');
+        let salesChart;
+
+        function createChart(data) {
+            const labels = [...new Set(data.flatMap(product => product.data.map(d => d.date)))].sort();
+            const datasets = data.map(product => {
+
+                const dateVolumeMap = Object.fromEntries(product.data.map(d => [d.date, d.volume]));
+                return {
+                    label: product.product,
+                    data: labels.map(date => dateVolumeMap[date] || 0),
+                    fill: false
+                };
+            });
+
+            if (salesChart) {
+
+                salesChart.data.labels = labels;
+                salesChart.data.datasets = datasets;
+                salesChart.update();
+            } else {
+                salesChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    unit: 'day',
+                                    tooltipFormat: 'dd/MM/yyyy',
+                                    displayFormats: {
+                                        day: 'dd/MM/yyyy'
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Data',
+                                    font: {
+                                        size: 16,
+                                        weight: 'bold'
+                                    }
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Volume de Vendas',
+                                    font: {
+                                        size: 16,
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function setCurrentMonthDates() {
+            const now = new Date();
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+            const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+            $("#startDate").val(startOfMonth.toISOString().split('T')[0]);
+            $("#endDate").val(endOfMonth.toISOString().split('T')[0]);
+        }
+
+        function filterData() {
+            const startDate = $("#startDate").val();
+            const endDate = $("#endDate").val();
+            const $errorMessage = $("#error-message");
+
+            $errorMessage.text("");
+
+            if (!startDate || !endDate) {
+                $errorMessage.text("Por favor, selecione um intervalo de datas completo.");
+                return;
+            }
+
+            if (startDate > endDate) {
+                $errorMessage.text("A data de início deve ser anterior ou igual à data de fim.");
+                return;
+            }
+
+            $.ajax({
+                url: `/admin/analysis/api?startDate=${startDate}&endDate=${endDate}`,
+                method: 'GET',
+                success: function (response) {
+                    debugger
+
+                    if (!response || response.length === 0) {
+                        $errorMessage.text("Nenhum dado encontrado para o período selecionado.");
+                        return;
+                    }
+                    createChart(response)
+                },
+                error: function (xhr, status, error) {
+                    console.error("Erro na requisição Ajax:", status, error);
+                    $errorMessage.text("Erro ao buscar os dados da API.");
+                }
+            });
+        }
+
+        function resetFilter() {
+            setCurrentMonthDates();
+            $("#error-message").text("");
+            filterData();
+        }
+
+        $(document).ready(() => {
+            setCurrentMonthDates();
+            filterData();
+        });
+    </script>
+
+</main>
+</body>
+</html>
+

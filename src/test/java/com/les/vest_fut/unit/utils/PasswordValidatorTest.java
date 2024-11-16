@@ -1,7 +1,7 @@
-package com.les.vest_fut.unit.utils;
+package com.les.t_shirt_gen.unit.utils;
 
 
-import com.les.vest_fut.utils.PasswordValidator;
+import com.les.t_shirt_gen.utils.PasswordValidator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
