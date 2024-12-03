@@ -5,7 +5,9 @@ CREATE TABLE orders
     ord_status       VARCHAR(255)   NOT NULL
         CONSTRAINT orders_status_check
             CHECK ((ord_status)::text = ANY
-                   ((ARRAY ['EM_PROCESSAMENTO':: character varying, 'PAGAMENTO_REALIZADO':: character varying, 'PAGAMENTO_REJEITADO':: character varying, 'EM_TRANSPORTE':: character varying, 'ENTREGUE':: character varying])::text[])
+                   ((ARRAY ['EXCHANGE_REQUESTED':: character varying,'EM_PROCESSAMENTO':: character varying,
+                       'PAGAMENTO_REALIZADO':: character varying, 'PAGAMENTO_REJEITADO':: character varying,
+                       'EXCHANGE_COMPLETED':: character varying,'EM_TRANSPORTE':: character varying, 'ENTREGUE':: character varying])::text[])
                 ),
     ord_total_amount NUMERIC(38, 2) NOT NULL,
     ord_updated_at   TIMESTAMP(6),

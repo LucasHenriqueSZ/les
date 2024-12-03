@@ -58,8 +58,27 @@
                     <div class="row gy-4">
                         <div class="col-12">
                             <div class="card widget-card border-light shadow-sm">
-                                <div class="card-header text-bg-primary">Ultimos pedidos</div>
+                                <div class="card-header text-bg-primary">Meus cupons</div>
                                 <div class="card-body">
+                                    <div th:if="${#lists.isEmpty(client.cupons)}">
+                                        <p class="text-muted">Você ainda não possui cupons cadastrados.</p>
+                                    </div>
+                                    <div th:if="${not #lists.isEmpty(client.cupons)}">
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                                th:each="cupon : ${client.cupons}">
+                                                <div th:if="${!cupon.used}">
+                                                    <h5 th:text="${cupon.code}"></h5>
+                                                    <p th:text="'Tipo: ' + ${cupon.type.name}"></p>
+                                                    <p th:text="'Desconto: ' + ${cupon.discountPercentage} + '%'"
+                                                       th:if="${cupon.type.name == 'porcentagem'}"></p>
+                                                    <p th:text="'Valor: ' + ${cupon.formattedAmount}"
+                                                       th:if="${cupon.type.name == 'valor fixo'}"></p>
+                                                    <p th:text="'Status: ' + (${cupon.used} ? 'Utilizado' : 'Disponível')"></p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>

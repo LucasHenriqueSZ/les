@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solicitar Troca</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="public/fragments/nav-bar :: navbar"></div>
+<main class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-4">Solicitar Troca</h1>
+        </div>
+
+<!--        <div class="col-12 mb-4">-->
+<!--            <div class="alert alert-warning" role="alert">-->
+<!--                <i class="ri-error-warning-line me-2"></i>-->
+<!--                O prazo para solicitar a troca deste pedido é até <strong>30/09/2024</strong>.-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <form th:action="@{/exchange-request}" method="post">
+            <input type="hidden" name="orderId" th:value="${order.id}">
+
+            <div class="col-12 mb-4">
+                <h5>Selecione os itens que deseja trocar</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Selecionar</th>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Tamanho</th>
+                            <th scope="col">Quantidade do Pedido</th>
+                            <th scope="col">Quantidade a Trocar</th>
+                            <th scope="col">Preço produto</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item, iterStat : ${order.items}">
+                            <td>
+                                <input type="checkbox" th:name="'exchangeItems[' + ${iterStat.index} + '].selected'"
+                                       value="true">
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img th:src="@{/img/examples/camisa_exemplo.jpg}" class="img-thumbnail me-2"
+                                         alt="Imagem do Produto" style="max-width: 60px;max-height: 60px">
+                                    <span th:text="${item.product.name}">Nome do Produto</span>
+                                </div>
+                            </td>
+                            <td th:text="${item.product.size}">Tamanho</td>
+                            <td th:text="${item.quantity}">Quantidade</td>
+                            <td>
+                                <input type="number" class="form-control"
+                                       th:name="'exchangeItems[' + ${iterStat.index} + '].quantity'" min="1"
+                                       th:max="${item.quantity}" value="1" style="width: 70px;">
+                            </td>
+                            <td th:text="${item.getFormattedPrice()}">R$ 00,00</td>
+                            <input type="hidden" th:name="'exchangeItems[' + ${iterStat.index} + '].itemId'"
+                                   th:value="${item.id}">
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-12 mb-4">
+                <h5>Motivo da Troca</h5>
+                <div class="mb-3">
+                    <label for="reasonSelect" class="form-label">Selecione o motivo da troca</label>
+                    <select class="form-select" id="reasonSelect" name="reason" required>
+                        <option value="" disabled selected>Escolha uma opção</option>
+                        <option value="tamanho">Tamanho incorreto</option>
+                        <option value="defeito">Produto com defeito</option>
+                        <option value="cor">Cor diferente do esperado</option>
+                        <option value="outros">Outro motivo</option>
+                    </select>
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" id="exchangeReason" name="description" style="height: 150px;"
+                              placeholder="Descreva o motivo da troca"></textarea>
+                    <label for="exchangeReason">Descreva o motivo da troca (opicional)</label>
+                </div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-center">
+                <button type="submit" class="btn btn-dark btn-lg">
+                    Enviar Solicitação de Troca
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+<div th:replace="public/fragments/footer :: footer"></div>
+</body>
+</html>

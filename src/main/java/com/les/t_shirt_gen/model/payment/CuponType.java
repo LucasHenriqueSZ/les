@@ -1,6 +1,13 @@
 package com.les.t_shirt_gen.model.payment;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum CuponType {
-    PERCENTAGE,
-    FIXED_AMOUNT
+    PERCENTAGE("porcentagem"),
+    FIXED_AMOUNT("valor fixo");
+
+    private final String name;
 }

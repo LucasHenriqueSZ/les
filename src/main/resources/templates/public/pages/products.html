@@ -11,6 +11,17 @@
 </head>
 <body>
 <div th:replace="public/fragments/nav-bar :: navbar"></div>
+<script type="module">
+    import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.3/dist/web.js'
+
+    Typebot.initBubble({
+        typebot: "open-r2z4u03",
+        theme: {
+            button: { backgroundColor: "#1c2b32" },
+            chatWindow: { backgroundColor: "#fff" },
+        },
+    });
+</script>
 <div class="container mt-5">
     <div th:replace="utils/AlertMessages :: alerts"></div>
     <div class="row w-100">

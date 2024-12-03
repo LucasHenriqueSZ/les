@@ -7,10 +7,12 @@ import com.les.t_shirt_gen.model.users.Card;
 import com.les.t_shirt_gen.model.users.UserEntity;
 import com.les.t_shirt_gen.security.CustomUserDetails;
 import com.les.t_shirt_gen.service.ClientService;
+import com.les.t_shirt_gen.service.CuponService;
 import com.les.t_shirt_gen.service.UserService;
 import com.les.t_shirt_gen.utils.groups.OnBasicInfoValidation;
 import com.les.t_shirt_gen.utils.groups.OnCreate;
 import com.les.t_shirt_gen.utils.groups.OnPasswordValidation;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,15 +23,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/cliente")
+@AllArgsConstructor
 public class UserClientController {
 
     private final ClientService clientService;
     private final UserService userService;
 
-    public UserClientController(ClientService clientService, UserService userService) {
-        this.clientService = clientService;
-        this.userService = userService;
-    }
 
     @GetMapping("/perfil")
     public ModelAndView profileClient(@AuthenticationPrincipal CustomUserDetails sessionUser, UserEntity client) {

@@ -17,7 +17,11 @@ public enum MessagesSuccess {
     CLIENT_STATUS_ALTERED("Status do cliente alterado com sucesso!"),
     CART_ADD_PRODUCT("Produto Adicionado ao carrinho com sucesso!"),
     CART_REMOVE_ITEM("Item removido do carrinho com sucesso!"),
-    ORDER_STATUS_SUCCESS("Status do pedido Alterado com sucesso!");
+    ORDER_STATUS_SUCCESS("Status do pedido Alterado com sucesso!"),
+    SUCCESS_EXCHANGE_REQUEST("Solicitação de troca enviada com sucesso."),
+    SUCCESS_EXCHANGE_STATUS_UPDATE("Status da solicitação alterado com sucesso!"),
+    SUCCESS_EXCHANGE_APPROVE("Solicitação de troca aprovada com sucesso! Cupon Gerado ao cliente!"),
+    SUCCESS_EXCHANGE_REJECT("Solicitação de troca rejeitada");
 
     private final String message;
 

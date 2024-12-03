@@ -2,13 +2,17 @@ package com.les.t_shirt_gen.service.impl;
 
 import com.les.t_shirt_gen.Enums.MessagesExceptions;
 import com.les.t_shirt_gen.exceptions.UniqueFieldException;
+import com.les.t_shirt_gen.model.cart.Cart;
 import com.les.t_shirt_gen.model.users.Address;
 import com.les.t_shirt_gen.model.users.Card;
 import com.les.t_shirt_gen.model.users.Role;
 import com.les.t_shirt_gen.model.users.UserEntity;
+import com.les.t_shirt_gen.repository.CartRepository;
 import com.les.t_shirt_gen.repository.RoleRepository;
 import com.les.t_shirt_gen.repository.UserRepository;
 import com.les.t_shirt_gen.service.ClientService;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +20,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
     private final UserRepository clientRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public ClientServiceImpl(UserRepository clientRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.clientRepository = clientRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final CartRepository cartRepository;
 
     @Override
+    @Transactional
     public void saveClient(UserEntity client) {
         this.validateUniqueFields(client, null);
         Optional<Role> role = roleRepository.findByName("ROLE_USER");
@@ -39,6 +40,7 @@ public class ClientServiceImpl implements ClientService {
         client.setPassword(passwordEncoder.encode(client.getPassword()));
         client.setConfirmPassword(client.getPassword());
         clientRepository.save(client);
+        this.createShoppingCart(client);
     }
 
     @Override
@@ -215,6 +217,12 @@ public class ClientServiceImpl implements ClientService {
                 throw new UniqueFieldException(MessagesExceptions.EMAIL_ALREADY_EXISTS);
             }
         });
+    }
+
+    private void createShoppingCart(UserEntity client) {
+        Cart cart = new Cart();
+        cart.setUser(client);
+        this.cartRepository.save(cart);
     }
 
 

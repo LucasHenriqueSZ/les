@@ -13,7 +13,9 @@ public enum OrderStatus {
     PAGAMENTO_REALIZADO("Pagamento realizado"),
     PAGAMENTO_REJEITADO("Pagamento rejeitado"),
     EM_TRANSPORTE("Em transporte"),
-    ENTREGUE("Entregue");
+    ENTREGUE("Entregue"),
+    EXCHANGE_REQUESTED("Em troca"),
+    EXCHANGE_COMPLETED("Troca finalizada");
 
     private final String name;
 

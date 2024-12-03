@@ -1,5 +1,6 @@
 package com.les.t_shirt_gen.model.order;
 
+import com.les.t_shirt_gen.model.exchange.ExchangeRequest;
 import com.les.t_shirt_gen.model.payment.Payment;
 import com.les.t_shirt_gen.model.users.UserEntity;
 import jakarta.persistence.*;
@@ -35,6 +36,9 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExchangeRequest> exchangeRequests = new ArrayList<>();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payment> payments = new ArrayList<>();

@@ -66,7 +66,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAllByUser() {
-        return orderRepository.findAllByUser(securityUtil.getUserSession());
+        List<Order> orders = orderRepository.findAllByUser(securityUtil.getUserSession());
+        if (orders != null && !orders.isEmpty()) {
+            orders.sort((o1, o2) -> {
+                LocalDateTime date1 = o1.getUpdatedAt() != null ? o1.getUpdatedAt() : o1.getCreatedAt();
+                LocalDateTime date2 = o2.getUpdatedAt() != null ? o2.getUpdatedAt() : o2.getCreatedAt();
+
+                return date2.compareTo(date1);
+            });
+        }
+        return orders;
     }
 
     @Override

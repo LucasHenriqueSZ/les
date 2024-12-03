@@ -34,7 +34,7 @@ public class AnalysisController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
         if (startDate == null) {
-            startDate = LocalDate.now().withDayOfMonth(1);
+            startDate = LocalDate.now().minusMonths(1).withDayOfMonth(1);
         }
 
         if (endDate == null) {

@@ -2,6 +2,7 @@ package com.les.t_shirt_gen.model.users;
 
 import com.les.t_shirt_gen.Enums.Gender;
 import com.les.t_shirt_gen.annotations.ValidPassword;
+import com.les.t_shirt_gen.model.payment.Cupon;
 import com.les.t_shirt_gen.utils.groups.OnBasicInfoValidation;
 import com.les.t_shirt_gen.utils.groups.OnCreate;
 import com.les.t_shirt_gen.utils.groups.OnPasswordValidation;
@@ -93,6 +94,9 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cupon> cupons;
 
     @AssertTrue(message = "{client.password.mismatch}", groups = {OnCreate.class, OnPasswordValidation.class})
     public boolean isPasswordsMatching() {
