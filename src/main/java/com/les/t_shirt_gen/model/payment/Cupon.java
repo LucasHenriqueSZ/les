@@ -56,6 +56,7 @@ public class Cupon {
     @Column(name = "cup_used", nullable = false)
     private boolean used;
 
+    @JsonIgnore
     public String getFormattedAmount() {
         Locale brazilianLocale = Locale.forLanguageTag("pt-BR");
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(brazilianLocale);
