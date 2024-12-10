@@ -80,8 +80,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderStatus(Long id, OrderStatus status) {
-        UserEntity user = securityUtil.getUserSession();
-        Order order = orderRepository.findByIdAndUser(id, user).orElseThrow(() -> new IllegalArgumentException(MessagesExceptions.ORDER_NOT_FOUND.getMessage()));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(MessagesExceptions.ORDER_NOT_FOUND.getMessage()));
         order.setStatus(status);
         orderRepository.save(order);
     }
