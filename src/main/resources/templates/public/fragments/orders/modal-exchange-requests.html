@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div th:fragment="modal-exchange-requests(order)">
+    <div class="modal fade" th:id="'modalExchangeRequests' + ${order.id}" tabindex="-1" aria-labelledby="modalExchangeRequestsLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalExchangeRequestsLabel">Solicitações de Troca</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <div th:if="${order.exchangeRequests.size() > 0}">
+                        <div th:each="exchange : ${order.exchangeRequests}">
+                            <h6 class="fw-bold">Solicitação #<span th:text="${exchange.id}"></span></h6>
+                            <p><strong>Motivo:</strong> <span th:text="${exchange.reason}"></span></p>
+                            <p><strong>Status:</strong> <span th:text="${exchange.status.name}"></span></p>
+                            <p><strong>Data:</strong> <span th:text="${exchange.getFormattedCreatedAt()}"></span></p>
+
+                            <div th:if="${exchange.exchangeItems.size() > 0}">
+                                <h6 class="fw-bold mt-3">Itens da Solicitação:</h6>
+                                <ul>
+                                    <li th:each="item : ${exchange.exchangeItems}">
+                                        <span th:text="${item.orderItem.product.name}"></span> -
+                                        Quantidade: <span th:text="${item.quantity}"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div th:if="${exchange.exchangeItems.size() == 0}">
+                                <p class="text-muted">Nenhum item registrado para esta solicitação de troca.</p>
+                            </div>
+                            <hr class="my-3">
+                        </div>
+                    </div>
+                    <div th:if="${order.exchangeRequests.size() == 0}">
+                        <p class="text-muted">Nenhuma solicitação de troca foi registrada para este pedido.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

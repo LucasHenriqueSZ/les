@@ -5,74 +5,126 @@
     <title></title>
 </head>
 <body>
-<div th:fragment="modal-order-details">
+<div th:fragment="modal-order-details(order)">
 
-    <!-- Button trigger modal -->
-    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalOrderDetails"
+    <button class="btn btn-outline-primary" data-bs-toggle="modal" th:data-bs-target="'#modalOrderDetails'+${order.id}"
             type="button">Detalhes do pedido
     </button>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalOrderDetails" tabindex="-1" aria-labelledby="modalOrderDetailsLabel" aria-hidden="true">
+    <div class="modal fade" th:id="'modalOrderDetails' + ${order.id}" tabindex="-1"
+         aria-labelledby="modalOrderDetailsLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0 pb-0">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body text-start">
-                    <h5 class="modal-title text-uppercase mb-4" id="modalOrderDetailsLabel">Acompanhamento do Pedido</h5>
+                    <h5 class="modal-title text-uppercase mb-4" id="modalOrderDetailsLabel">Detalhes do
+                        Pedido</h5>
 
-                    <h6 class="mb-2">Detalhes do Pedido</h6>
-                    <p><strong>Número do Pedido:</strong> #123456</p>
-                    <p><strong>Data do Pedido:</strong> 12/07/2024</p>
-                    <p><strong>Status do Pedido:</strong> Entregue</p>
+                    <p><strong>Número do Pedido:</strong> #<span th:text="${order.id}"></span></p>
+                    <p><strong>Data do Pedido:</strong> <span th:text="${order.getFormattedCreatedAt()}"></span></p>
+                    <p><strong>Status do Pedido:</strong><span th:text="${order.status.name}"></span></p>
 
                     <hr class="mt-2 mb-4"
                         style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
 
                     <h6 class="mt-4 mb-2">Itens do Pedido</h6>
-                    <div class="d-flex justify-content-between">
-                        <p class="fw-bold mb-0">Camisa Seleção Brasileira (Qtd: 2)</p>
-                        <p class="text-muted mb-0">R$250,00</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p class="fw-bold mb-0">Camisa Seleção Argentina (Qtd: 1)</p>
-                        <p class="text-muted mb-0">R$150,00</p>
+                    <div th:each="item : ${order.items}">
+                        <div class="d-flex justify-content-between">
+                            <p class="fw-bold mb-0"
+                               th:text="${item.product.name + ' (Qtd: ' + item.quantity + ')'}"></p>
+                            <p class="text-muted mb-0" th:text="${item.getFormattedTotalPrice()}"></p>
+                        </div>
                     </div>
 
                     <hr class="mt-2 mb-4"
                         style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
 
-                    <h6 class="mt-4 mb-2">Resumo do Pagamento</h6>
                     <div class="d-flex justify-content-between">
                         <p class="fw-bold mb-0">Subtotal</p>
-                        <p class="text-muted mb-0">R$400,00</p>
+                        <p class="text-muted mb-0" th:text="${order.getFormattedTotalPriceItems()}"></p>
                     </div>
+
                     <div class="d-flex justify-content-between">
                         <p class="fw-bold mb-0">Frete</p>
-                        <p class="text-muted mb-0">R$50,00</p>
+                        <p class="text-muted mb-0" th:text="${order.orderSend.getFormattedPrice()}"></p>
                     </div>
+
                     <div class="d-flex justify-content-between pb-1">
                         <p class="fw-bold">Total</p>
-                        <p class="fw-bold">R$450,00</p>
+                        <p class="fw-bold" th:text="${order.getFormattedPrice()}"></p>
+                    </div>
+
+                    <h6 class="mt-1 mb-2">Detalhes do Pagamento</h6>
+                    <div th:each="payment : ${order.payments}">
+                        <div class="d-flex justify-content-between">
+                            <p class="fw-bold mb-0" th:text="${payment.method.name()}"></p>
+
+                        </div>
+                        <div th:if="${payment.card != null}">
+                            <div class="d-flex justify-content-between">
+                                <p class="text-muted mb-0"
+                                   th:text="'Cartão: ' + ${payment.card.flag}+ ' - ' + ${payment.card.cardNumber.substring(0, 4)} + ' **** **** ' + ${payment.card.cardNumber.substring(12, 16)}">
+                                </p>
+                                <p class="text-muted mb-0" th:text="${payment.getFormattedAmount()}"></p>
+                            </div>
+                        </div>
+                        <div th:if="${payment.cupon != null}">
+                            <p class="text-muted mb-0" th:text="'Cupom aplicado: ' + ${payment.cupon.code}"></p>
+                            <div th:if="${payment.cupon.discountPercentage != null}">
+                                <p class="text-muted mb-0"
+                                   th:text="'Desconto: ' + ${payment.cupon.discountPercentage} + '%'"></p>
+                            </div>
+                            <div th:if="${payment.cupon.amount != null}">
+                                <p class="text-muted mb-0"
+                                   th:text="'Desconto: ' + ${payment.cupon.getFormattedAmount()}"></p>
+                            </div>
+                        </div>
                     </div>
 
                     <hr class="mt-2 mb-4"
                         style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
 
-                    <h6 class="mt-4 mb-2">Informações de Envio</h6>
-                    <p><strong>Endereço:</strong> Rua Exemplo, 123, Bairro, Cidade - Estado, CEP 12345-678</p>
-                    <p><strong>Data de Entrega:</strong> 30/07/2024</p>
+                    <h6 class="fw-bold">Informações de Envio</h6>
+                    <p class="text-muted small mb-0">
+                        <span th:text="${order.orderSend.getAddress().street + ', ' + order.orderSend.getAddress().number}"></span>
+                        <br>
+                        <span th:text="${order.orderSend.getAddress().neighborhood}"></span>
+                        <br>
+                        <span th:text="${order.orderSend.getAddress().city + ' - ' + order.orderSend.getAddress().state}"></span>
+                        <br>
+                        <span th:text="${order.orderSend.getAddress().zipCode}"></span>
+                    </p>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <p class="fw-bold mb-0">Data Prevista de Envio</p>
+                        <p class="text-muted mb-0" th:text="${order.orderSend.getFormattedInitDatePrediction()}"></p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="fw-bold mb-0">Data Real de Envio</p>
+                        <p class="text-muted mb-0" th:text="${order.orderSend.getFormattedInitDateReal()}"></p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="fw-bold mb-0">Data Prevista de Entrega</p>
+                        <p class="text-muted mb-0" th:text="${order.orderSend.getFormattedEndDatePrediction()}"></p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="fw-bold mb-0">Data Real de Entrega</p>
+                        <p class="text-muted mb-0" th:text="${order.orderSend.getFormattedEndDateReal()}"></p>
+                    </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center border-top-0 py-2">
-                    <button type="button" class="btn btn-outline-dark btn-lg mb-1">
+                    <a th:href="@{'/pedidos/solicitar-troca/' + ${order.id}}"
+                       class="btn btn-outline-dark btn-lg mb-1"
+                       th:classappend="${!order.isDelivered()} ? ' disabled' : ''">
                         Solicitar Troca
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-
 
 
 </div>

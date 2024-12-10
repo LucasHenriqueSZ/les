@@ -11,29 +11,13 @@
         </a>
         <ul class="list-unstyled ps-0 ">
             <li class="mb-1">
-                <button class="btn btn-toggle link-light align-items-center rounded collapsed " data-bs-toggle="collapse"
-                        data-bs-target="#home-collapse" aria-expanded="false">
-                    Home
-                </button>
-                <div class="collapse" id="home-collapse" style="">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="link-light rounded">Overview</a></li>
-                        <li><a href="#" class="link-light rounded">Updates</a></li>
-                        <li><a href="#" class="link-light rounded">Reports</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="mb-1">
                 <button class="btn btn-toggle link-light align-items-center rounded collapsed" data-bs-toggle="collapse"
                         data-bs-target="#dashboard-collapse" aria-expanded="false">
                     Dashboard
                 </button>
                 <div class="collapse" id="dashboard-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="link-light rounded">Overview</a></li>
-                        <li><a href="#" class="link-light rounded">Weekly</a></li>
-                        <li><a href="#" class="link-light rounded">Monthly</a></li>
-                        <li><a href="#" class="link-light rounded">Annually</a></li>
+                        <li><a th:href="@{/admin/analysis}" class="link-light rounded">Vendas</a></li>
                     </ul>
                 </div>
             </li>
@@ -45,6 +29,9 @@
                 <div class="collapse" id="orders-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a th:href="@{/admin/pedidos}" class="link-light rounded">Listagem</a></li>
+                    </ul>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a th:href="@{/admin/exchanges}" class="link-light rounded">Solicitações de Troca</a></li>
                     </ul>
                 </div>
             </li>
@@ -78,9 +65,6 @@
                 </button>
                 <div class="collapse" id="account-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="link-light rounded">New...</a></li>
-                        <li><a href="#" class="link-light rounded">Profile</a></li>
-                        <li><a href="#" class="link-light rounded">Settings</a></li>
                         <li><a class="link-light rounded" th:href="@{/auth/logout}">Sair</a></li>
                     </ul>
                 </div>

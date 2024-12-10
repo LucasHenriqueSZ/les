@@ -1,4 +1,4 @@
-package com.les.vest_fut;
+package com.les.t_shirt_gen;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

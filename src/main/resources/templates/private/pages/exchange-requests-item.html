@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>admin clientes</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+          rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="private/fragments/sidebar :: sidebar"></div>
+<main class="main-adm px-3">
+    <h1 class="text-center mb-4">Gerenciamento de Trocas</h1>
+    <div th:if="${exchange.status == T(com.les.t_shirt_gen.model.exchange.ExchangeStatus).COMPLETED
+                or exchange.status == T(com.les.t_shirt_gen.model.exchange.ExchangeStatus).REJECTED}"
+         class="alert alert-warning" role="alert">
+        <i class="ri-error-warning-line me-2"></i>
+        A troca já foi finalizada.
+    </div>
+    <div class="row">
+
+        <div th:replace="utils/AlertMessages :: alerts"></div>
+        <div class="col-md-6">
+            <h3>Informações da Solicitação</h3>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>ID da Troca:</strong> <span th:text="${exchange.id}"></span></li>
+                <li class="list-group-item"><strong>ID do Pedido:</strong> <span th:text="${exchange.order.id}"></span>
+                </li>
+                <li class="list-group-item"><strong>Usuário:</strong> <span th:text="${exchange.user.name}"></span></li>
+                <li class="list-group-item"><strong>Status:</strong> <span th:text="${exchange.status.name}"></span>
+                </li>
+                <li class="list-group-item"><strong>Data de Solicitação:</strong> <span
+                        th:text="${exchange.getFormattedCreatedAt()}"></span></li>
+                <li class="list-group-item"><strong>Motivo da Troca:</strong>
+                    <span th:text="${exchange.reason ?: 'Não especificado'}"></span>
+                </li>
+                <li class="list-group-item"><strong>Observações:</strong> <span
+                        th:text="${exchange.observations}"></span>
+                <li class="list-group-item">
+                    <strong>Data finalização:</strong>
+                    <span th:text="${exchange.completedAt ?: 'Em troca'}"></span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Itens Solicitados</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Tamanho</th>
+                    <th>Quantidade</th>
+                    <th>Preço</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${exchange.exchangeItems}">
+                    <td th:text="${item.orderItem.product.name}"></td>
+                    <td th:text="${item.orderItem.product.size}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.orderItem.getFormattedPrice()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Itens do Pedido</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Tamanho</th>
+                    <th>Quantidade</th>
+                    <th>Preço</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${exchange.order.items}">
+                    <td th:text="${item.product.name}"></td>
+                    <td th:text="${item.product.size}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.getFormattedPrice()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Ações Administrativas</h3>
+            <form th:action="@{'/admin/exchanges/' + ${exchange.id} + '/update-status'}" method="post">
+                <div class="mb-3">
+                    <label for="statusSelect" class="form-label"><strong>Alterar Status</strong> - Atual: <span
+                            th:text="${exchange.status.name}"></span></label>
+                    <select class="form-select" id="statusSelect" name="status" required>
+                        <option th:each="status : ${T(com.les.t_shirt_gen.model.exchange.ExchangeStatus).getEditableStatuses()}"
+                                th:value="${status}" th:text="${status.name}"
+                                th:selected="${status == exchange.status}"></option>
+                    </select>
+                </div>
+                <button th:disabled="${exchange.status == T(com.les.t_shirt_gen.model.exchange.ExchangeStatus).COMPLETED
+                or exchange.status == T(com.les.t_shirt_gen.model.exchange.ExchangeStatus).REJECTED}"
+                        type="submit" class="btn btn-primary">Atualizar Status
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div class="col-md-12">
+            <form th:action="@{'/admin/exchanges/' + ${exchange.id} + '/finalize'}" method="post">
+                <h3>Conclusão da Troca</h3>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="returnToStock" name="returnToStock">
+                    <label class="form-check-label" for="returnToStock">
+                        Retornar itens ao estoque
+                    </label>
+                </div>
+
+                <div class="mb-3">
+                    <label for="observations" class="form-label"><strong>Observações</strong></label>
+                    <textarea class="form-control" id="observations" name="observations" rows="3"
+                              placeholder="Adicione observações sobre a troca (opcional)"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button th:disabled="${exchange.status == T(com.les.t_shirt_gen.model.exchange.ExchangeStatus).COMPLETED
+                or exchange.status == T(com.les.t_shirt_gen.model.exchange.ExchangeStatus).REJECTED}" type="submit"
+                            class="btn btn-success" name="action" value="approve">
+                        <i class="ri-check-line"></i> Concluir Troca
+                    </button>
+                    <button th:disabled="${exchange.status == T(com.les.t_shirt_gen.model.exchange.ExchangeStatus).COMPLETED
+                or exchange.status == T(com.les.t_shirt_gen.model.exchange.ExchangeStatus).REJECTED}" type="submit"
+                            class="btn btn-danger" name="action" value="reject">
+                        <i class="ri-close-line"></i> Rejeitar Troca
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

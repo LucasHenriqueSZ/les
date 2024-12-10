@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>admin clientes</title>
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/logo_3.png}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+          rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="private/fragments/sidebar :: sidebar"></div>
+<main class="main-adm px-3">
+    <h1 class="my-4">Gerenciar Solicitações de Troca</h1>
+
+    <div th:if="${#lists.isEmpty(exchangeRequests)}">
+        <p class="text-muted">Nenhuma solicitação de troca encontrada.</p>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(exchangeRequests)}">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Pedido</th>
+                <th>Usuário</th>
+                <th>Status</th>
+                <th>Data de solicitação</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exchange : ${exchangeRequests}">
+                <td th:text="${exchange.id}"></td>
+                <td th:text="${exchange.order.id}"></td>
+                <td th:text="${exchange.user.name}"></td>
+                <td>
+                    <span class="badge bg-secondary"
+                          th:text="${exchange.status.name}"></span>
+                </td>
+                <td th:text="${exchange.getFormattedCreatedAt()}"></td>
+                <td>
+                    <a th:href="@{'/admin/exchanges/' + ${exchange.id}}" class="btn btn-sm btn-primary">
+                        Gerenciar
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
